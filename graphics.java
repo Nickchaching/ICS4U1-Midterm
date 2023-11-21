@@ -16,7 +16,7 @@ public class graphics implements ActionListener{
 
     //Constructor
     public graphics(){
-        thePanel.setPreferredSize(new Dimension(1280, 720));
+        thePanel.setPreferredSize(new Dimension(1000, 720));
         theFrame.setContentPane(thePanel);
         theFrame.pack();
         theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
