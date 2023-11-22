@@ -41,7 +41,6 @@ public class graphics implements ActionListener {
     public graphics() {
         // Panel
         thePanel.setPreferredSize(new Dimension(1000, 720));
-        thePanel.setPreferredSize(new Dimension(1280, 720));
         thePanel.setLayout(null);
         // Sin Button
         sinButton.setSize(235, 40);
