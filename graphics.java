@@ -8,11 +8,12 @@ import javax.swing.*;
 import java.awt.event.*;
 import javax.swing.event.*;
 
-public class graphics implements ActionListener {
+public class graphics implements ActionListener, MouseMotionListener {
     // Properties
     JFrame theFrame = new JFrame("SOH CAH TOA Simulator");
     panelgraphics thePanel = new panelgraphics();
     Timer newFrame = new Timer(1000 / 48, this);
+
     // Toggle Button
     // ButtonGroup group = new ButtonGroup();
     // JToggleButton modeA = new JToggleButton("Side A, Side B");
@@ -33,8 +34,23 @@ public class graphics implements ActionListener {
     JLabel resultLabel = new JLabel("Result: ", JLabel.CENTER);
 
     // Methods
-    public void actionPerformed(ActionEvent evt) {
+    public void actionPerformed(ActionEvent evt){
+        if(evt.getSource() == newFrame){
+            thePanel.repaint();
+            newFrame.start();
+        }
+    }
 
+    public void mouseDragged(MouseEvent evt){
+        if(evt.getX() >= 300){
+            thePanel.intX1 = evt.getX();
+            thePanel.intY1 = evt.getY();
+            thePanel.pointDragged();
+        }
+    }
+
+    public void mouseMoved(MouseEvent evt){
+        
     }
 
     // Constructor
@@ -96,6 +112,9 @@ public class graphics implements ActionListener {
         resultLabel.setLocation(20, 650);
         resultLabel.setForeground(Color.white);
         thePanel.add(resultLabel);
+
+        //Adding Listeners
+        thePanel.addMouseMotionListener(this);
 
         theFrame.setContentPane(thePanel);
         theFrame.pack();

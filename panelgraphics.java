@@ -46,7 +46,7 @@ public class panelgraphics extends JPanel{
         g2.setStroke(new BasicStroke(3));
         
         getX2();
-        getGridCoords();
+        getPosCoords();
 
         g.drawLine(intX1, intY1, intX2, intY2);
         g.drawLine(intX1, intY1, intX1, intY2);
@@ -77,11 +77,18 @@ public class panelgraphics extends JPanel{
     }
 
     //Converts Grid Coordinates to integer position values
-    private void getGridCoords(){
+    private void getPosCoords(){
         this.intX1 = 300 + (intPosX1 * 20);
         this.intY1 = 20 + (intPosY1 * 20);
         this.intX2 = 300 + (intPosX2 * 20);
         this.intY2 = 20 + (intPosY2 * 20);
+    }
+
+    private void getGridCoords(){
+        this.intPosX1 = (this.intX1 - 300)/20;
+        this.intPosY1 = (this.intY1 - 20)/20;
+        this.intPosX2 = (this.intX2 - 300)/20;
+        this.intPosY2 = (this.intY2 - 20)/20;
     }
 
     //Snaps coordinates to the grid after dragging
@@ -98,6 +105,7 @@ public class panelgraphics extends JPanel{
         else{
             this.intY1 = this.intY1 - (this.intY1 % 20) + 20;
         }
+
         if(this.intY2 % 20 <= 10){
             this.intX2 = this.intX2 - (this.intX2 % 20);
         }
@@ -115,6 +123,8 @@ public class panelgraphics extends JPanel{
     //Activated after a point is dragged to recalulate length and snap to grid
     public void pointDragged(){
         snapTo();
+        getGridCoords();
         getLength();
+        System.out.println(intX1+" | "+intPosX1+" | "+intY1+" | "+intPosY1);
     }
 }
