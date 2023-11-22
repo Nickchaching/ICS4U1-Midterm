@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import javax.swing.event.*;
 
-public class graphics implements ActionListener, MouseMotionListener {
+public class graphics implements ActionListener, MouseMotionListener, MouseListener {
     // Properties
     JFrame theFrame = new JFrame("SOH CAH TOA Simulator");
     panelgraphics thePanel = new panelgraphics();
@@ -42,11 +42,52 @@ public class graphics implements ActionListener, MouseMotionListener {
     }
 
     public void mouseDragged(MouseEvent evt){
-        if(evt.getX() >= 300){
+        if(thePanel.intPointSelected == 1){
             thePanel.intX1 = evt.getX();
             thePanel.intY1 = evt.getY();
             thePanel.pointDragged();
         }
+        else if(thePanel.intPointSelected == 2){
+            thePanel.intX2 = evt.getX();
+            thePanel.intY2 = evt.getY();
+            thePanel.pointDragged();
+        }
+        else if(thePanel.intPointSelected == 3){
+            thePanel.intX1 = evt.getX();
+            thePanel.intY2 = evt.getY();
+            thePanel.intX2 = evt.getX() + thePanel.intLengthX * 20;
+            thePanel.intY1 = evt.getY() - thePanel.intLengthY * 20;
+            thePanel.baseDragged();
+        }
+    }
+
+    //Computes the Point that is Selected
+    public void mousePressed(MouseEvent evt){
+        if(evt.getX() < thePanel.intX1 + 5 && evt.getX() > thePanel.intX1 - 5 && evt.getY() < thePanel.intY1 + 5 && evt.getY() > thePanel.intY1 - 5){
+            thePanel.intPointSelected = 1;
+        }
+        else if(evt.getX() < thePanel.intX2 + 5 && evt.getX() > thePanel.intX2 - 5 && evt.getY() < thePanel.intY2 + 5 && evt.getY() > thePanel.intY2 - 5){
+            thePanel.intPointSelected = 2;
+        }
+        else if(evt.getX() < thePanel.intX1 + 5 && evt.getX() > thePanel.intX1 - 5 && evt.getY() < thePanel.intY2 + 5 && evt.getY() > thePanel.intY2 - 5){
+            thePanel.intPointSelected = 3;
+        }
+    }
+
+    public void mouseReleased(MouseEvent evt){
+        thePanel.intPointSelected = 0;
+    }
+    
+    public void mouseExited(MouseEvent evt){
+
+    }
+
+    public void mouseClicked(MouseEvent evt){
+        
+    }
+
+    public void mouseEntered(MouseEvent evt){
+
     }
 
     public void mouseMoved(MouseEvent evt){
@@ -115,6 +156,7 @@ public class graphics implements ActionListener, MouseMotionListener {
 
         //Adding Listeners
         thePanel.addMouseMotionListener(this);
+        thePanel.addMouseListener(this);
 
         theFrame.setContentPane(thePanel);
         theFrame.pack();

@@ -15,10 +15,12 @@ public class panelgraphics extends JPanel{
     int intY1;
     int intX2;
     int intY2;
+    int intPointSelected;
     
     Color clrBackground = new Color(37, 37, 37);
     Color clrGrid = new Color(50, 50, 50);
     Color clrWhite = new Color(255, 255, 255);
+    Color clrRed = new Color(255, 0, 0);
 
     //Methods
     public void paintComponent(Graphics g){
@@ -46,16 +48,34 @@ public class panelgraphics extends JPanel{
         g2.setStroke(new BasicStroke(3));
         
         getX2();
+        restrictPos();
         getPosCoords();
 
         g.drawLine(intX1, intY1, intX2, intY2);
         g.drawLine(intX1, intY1, intX1, intY2);
         g.drawLine(intX1, intY2, intX2, intY2);
 
+        //Draws the Base Dragger Points
         g.fillOval(intX1 - 5, intY1 - 5, 11, 11);
-        g.fillOval(intX1 - 5, intY2 - 5, 11, 11);
         g.fillOval(intX2 - 5, intY2 - 5, 11, 11);
+        g.fillOval(intX1 - 5, intY2 - 5, 11, 11);
 
+        //Highlights the Selected Dragger Point
+        if(intPointSelected == 1){
+            g.setColor(clrRed);
+            g.fillOval(intX1 - 5, intY1 - 5, 11, 11);
+            g.setColor(clrWhite);
+        }
+        else if(intPointSelected == 2){
+            g.setColor(clrRed);
+            g.fillOval(intX2 - 5, intY2 - 5, 11, 11);
+            g.setColor(clrWhite);
+        }
+        else if(intPointSelected == 3){
+            g.setColor(clrRed);
+            g.fillOval(intX1 - 5, intY2 - 5, 11, 11);
+            g.setColor(clrWhite);
+        }
     }
 
     //Constructor
@@ -120,11 +140,55 @@ public class panelgraphics extends JPanel{
         }
     }
 
+    //Prevents Points from Going Out of Bounds [0, 34]
+    private void restrictPos(){
+        if(intPosX1 < 0){
+            intPosX2 = 0 + intLengthX;
+            intPosX1 = 0;
+        }
+        else if(intPosX1 > 34){
+            intPosX2 = 34 + intLengthX;
+            intPosX1 = 34;
+        }
+        if(intPosY1 < 0){
+            intPosY2 = 0 + intLengthY;
+            intPosY1 = 0;
+        }
+        else if(intPosY1 > 34){
+            intPosY2 = 34 + intLengthY;
+            intPosY1 = 34;
+        }
+        if(intPosX2 < 0){
+            intPosX1 = 0 - intLengthX;
+            intPosX2 = 0;
+        }
+        else if(intPosX2 > 34){
+            intPosX1 = 34 - intLengthX;
+            intPosX2 = 34;
+        }
+        if(intPosY2 < 0){
+            intPosY1 = 0 - intLengthY;
+            intPosY2 = 0;
+        }
+        else if(intPosY2 > 34){
+            intPosY1 = 34 - intLengthY;
+            intPosY2 = 34;
+        }
+    }
+
     //Activated after a point is dragged to recalulate length and snap to grid
     public void pointDragged(){
         snapTo();
         getGridCoords();
+        restrictPos();
         getLength();
-        System.out.println(intX1+" | "+intPosX1+" | "+intY1+" | "+intPosY1);
+        System.out.println(intX1+" | "+intPosX1+" | "+intY1+" | "+intPosY1+" | "+intLengthX+" | "+intLengthY);
+    }
+
+    public void baseDragged(){
+        snapTo(); //Rounds to nearest slot
+        getGridCoords(); //Gets the 
+        restrictPos();
+        System.out.println(intX1+" | "+intPosX1+" | "+intY1+" | "+intPosY1+" | "+intX2+" | "+intPosX2+" | "+intY2+" | "+intPosY2+" | "+intLengthX+" | "+intLengthY);
     }
 }
