@@ -18,16 +18,20 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     JButton sinButton = new JButton("Sin");
     JButton cosButton = new JButton("Cos");
     JButton tanButton = new JButton("Tan");
-    JButton modeA = new JButton("Mode 1");
-    JButton modeB = new JButton("Mode 2");
+    // JButton modeA = new JButton("Mode 1");
+    // JButton modeB = new JButton("Mode 2");
     // Text Fields
-    JTextField aText = new JTextField();
-    JTextField bText = new JTextField();
+    // JTextField aText = new JTextField();
+    // JTextField bText = new JTextField();
     // Labels
-    JLabel aLabel = new JLabel("Side A", JLabel.CENTER);
+    JLabel aLabel = new JLabel("Side A: ", JLabel.CENTER);
     JLabel bLabel = new JLabel("Side B/Angle A", JLabel.CENTER);
     JLabel modeLabel = new JLabel("Selected mode: None", JLabel.CENTER);
     JLabel resultLabel = new JLabel("Result: ", JLabel.CENTER);
+    // Slider
+    JSlider slideSideA = new JSlider();
+    JSlider slideSideB = new JSlider();
+    JSlider slideAngle = new JSlider();
 
     // Methods
     public void actionPerformed(ActionEvent evt) {
@@ -35,13 +39,13 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
             thePanel.repaint();
             newFrame.start();
         }
-        if (evt.getSource() == modeA) {
-            bLabel.setText("Side B");
-            System.out.println("mode a");
-        }
-        if (evt.getSource() == modeB) {
-            bLabel.setText("Angle A");
-        }
+        // if (evt.getSource() == modeA) {
+        // bLabel.setText("Side B");
+        // System.out.println("mode a");
+        // }
+        // if (evt.getSource() == modeB) {
+        // bLabel.setText("Angle A");
+        // }
     }
 
     public void mouseDragged(MouseEvent evt) {
@@ -60,8 +64,8 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
             thePanel.intY1 = evt.getY() - thePanel.intLengthY * 20;
             thePanel.baseDragged();
         }
-        aText.setText("" + thePanel.intLengthX);
-        bText.setText("" + thePanel.intLengthY);
+        aLabel.setText("Side A: " + thePanel.intLengthX);
+        bLabel.setText("Side B:" + thePanel.intLengthY);
     }
 
     // Computes the Point that is Selected
@@ -116,32 +120,36 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         tanButton.setLocation(20, 320);
         thePanel.add(tanButton);
         // Mode A Buttons
-        modeA.setSize(107, 40);
-        modeA.setLocation(20, 50);
-        thePanel.add(modeA);
+        // modeA.setSize(107, 40);
+        // modeA.setLocation(20, 50);
+        // thePanel.add(modeA);
         // Mode B Button
-        modeB.setSize(107, 40);
-        modeB.setLocation(147, 50);
-        thePanel.add(modeB);
+        // modeB.setSize(107, 40);
+        // modeB.setLocation(147, 50);
+        // thePanel.add(modeB);
         // note: set up ActionListener for sin/cos/tan buttons
         //
-        // Toggle Buttons (too complicated, will take too much time)
         // group.add(modeA);
         // group.add(modeB);
         // thePanel.add(group);
         // Text Field A
-        aText.setSize(235, 40);
-        aText.setLocation(20, 446);
-        thePanel.add(aText);
+        // aText.setSize(235, 40);
+        // aText.setLocation(20, 446);
+        // thePanel.add(aText);
         // Text Field B
-        bText.setSize(235, 40);
-        bText.setLocation(20, 532);
-        thePanel.add(bText);
+        // bText.setSize(235, 40);
+        // bText.setLocation(20, 532);
+        // thePanel.add(bText);
         // Label for Selected Mode
-        modeLabel.setSize(235, 40);
-        modeLabel.setLocation(20, 10);
-        modeLabel.setForeground(Color.white);
-        thePanel.add(modeLabel);
+        // modeLabel.setSize(235, 40);
+        // modeLabel.setLocation(20, 10);
+        // modeLabel.setForeground(Color.white);
+        // thePanel.add(modeLabel);
+
+        // Sliders
+        thePanel.add(slideSideA);
+        thePanel.add(slideSideB);
+        thePanel.add(slideAngle);
         // Label for Field A
         aLabel.setSize(235, 40);
         aLabel.setLocation(20, 406);
