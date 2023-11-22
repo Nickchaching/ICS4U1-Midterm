@@ -48,7 +48,6 @@ public class panelgraphics extends JPanel{
         g2.setStroke(new BasicStroke(3));
         
         getX2();
-        restrictPos();
         getPosCoords();
 
         g.drawLine(intX1, intY1, intX2, intY2);
