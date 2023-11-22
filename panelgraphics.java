@@ -9,6 +9,7 @@ public class panelgraphics extends JPanel{
     int intPosY1 = 15;
     int intLengthX = 4;
     int intLengthY = 3;
+    int intScaleMultiplier;
     double dblLengthHyp;
     double dblAngle;
     int intPosX2;
@@ -18,6 +19,7 @@ public class panelgraphics extends JPanel{
     int intX2;
     int intY2;
     int intPointSelected;
+    int intTrigSelected;
     
     Color clrBackground = new Color(37, 37, 37);
     Color clrGrid = new Color(50, 50, 50);
@@ -52,6 +54,17 @@ public class panelgraphics extends JPanel{
         getX2();
         getPosCoords();
 
+        //Drawing the ARC
+        getTrig();
+        g.setColor(clrRed);
+        intScaleMultiplier = Math.min(intLengthX, intLengthY);
+        if(intScaleMultiplier < 7){
+            intScaleMultiplier = 7;
+        }
+        g.drawArc(intX1 - (int)((intScaleMultiplier * 5)/2), intY1 - (int)((intScaleMultiplier * 5)/2), intScaleMultiplier * 5, intScaleMultiplier * 5, 270, (int)dblAngle);
+        g.setColor(clrWhite);
+        
+        //Drawing Triangle Edge Lines
         g.drawLine(intX1, intY1, intX2, intY2);
         g.drawLine(intX1, intY1, intX1, intY2);
         g.drawLine(intX1, intY2, intX2, intY2);
@@ -83,10 +96,6 @@ public class panelgraphics extends JPanel{
         else if(intLengthX < 0){
             g.drawString(""+intLengthY, intX1 + 10, intY1 + (intLengthY * 20 / 2) + 5);
         }
-        
-        //Drawing the ARC
-        getTrig();
-        g.drawArc(intX1 - 10, intY1 - 10, 25, 25, 270, (int)dblAngle);
 
         //Highlights the Selected Dragger Point
         if(intPointSelected == 1){
