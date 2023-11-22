@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import javax.swing.event.*;
 
-public class graphics implements ActionListener, MouseMotionListener, MouseListener {
+public class graphics implements ActionListener, MouseMotionListener, MouseListener, ChangeListener {
     // Properties
     JFrame theFrame = new JFrame("SOH CAH TOA Simulator");
     panelgraphics thePanel = new panelgraphics();
@@ -30,9 +30,9 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     JLabel modeLabel = new JLabel("Selected mode: None", JLabel.CENTER);
     JLabel resultLabel = new JLabel("Result: ", JLabel.CENTER);
     // Slider
-    JSlider slideSideA = new JSlider();
-    JSlider slideSideB = new JSlider();
-    JSlider slideAngle = new JSlider();
+    JSlider slideSideA = new JSlider(JSlider.HORIZONTAL, 0, 34, 10);
+    JSlider slideSideB = new JSlider(JSlider.HORIZONTAL, 0, 34, 10);
+    JSlider slideAngle = new JSlider(JSlider.HORIZONTAL, 0, 34, 10);
 
     // Methods
     public void actionPerformed(ActionEvent evt) {
@@ -104,6 +104,13 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
 
     }
 
+    public void stateChanged(ChangeEvent evt) {
+        int intValue;
+        if (ChangeListener.source() == slideSideA) {
+            intValue = slideSideA.getValue();
+        }
+    }
+
     // Constructor
     public graphics() {
         // Panel
@@ -148,11 +155,16 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         // modeLabel.setForeground(Color.white);
         // thePanel.add(modeLabel);
 
-        // Sliders
+        // Slider Side A
         slideSideA.setLocation(20, 88);
+        slideSideA.setMajorTickSpacing(2);
+        slideSideA.setPaintTicks(true);
+        slideSideA.addChangeListener(evt);
         thePanel.add(slideSideA);
+        // Slider Side B
         slideSideB.setLocation(20, 174);
         thePanel.add(slideSideB);
+        // Slider Angle A
         slideAngle.setLocation(20, 260);
         thePanel.add(slideAngle);
         // Label for Side A
