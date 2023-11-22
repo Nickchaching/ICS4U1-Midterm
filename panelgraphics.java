@@ -25,6 +25,7 @@ public class panelgraphics extends JPanel{
     Color clrGrid = new Color(50, 50, 50);
     Color clrWhite = new Color(255, 255, 255);
     Color clrRed = new Color(255, 0, 0);
+    Color clrOrange = new Color(255, 171, 61);
 
     //Methods
     public void paintComponent(Graphics g){
@@ -61,13 +62,38 @@ public class panelgraphics extends JPanel{
         if(intScaleMultiplier < 7){
             intScaleMultiplier = 7;
         }
-        g.drawArc(intX1 - (int)((intScaleMultiplier * 5)/2), intY1 - (int)((intScaleMultiplier * 5)/2), intScaleMultiplier * 5, intScaleMultiplier * 5, 270, (int)dblAngle);
+        if(intLengthY > 0){
+            g.drawArc(intX1 - (int)((intScaleMultiplier * 5)/2), intY1 - (int)((intScaleMultiplier * 5)/2), intScaleMultiplier * 5, intScaleMultiplier * 5, 270, (int)dblAngle);
+        }
+        else if(intLengthY < 0){
+            g.drawArc(intX1 - (int)((intScaleMultiplier * 5)/2), intY1 - (int)((intScaleMultiplier * 5)/2), intScaleMultiplier * 5, intScaleMultiplier * 5, 90 - (int)dblAngle, (int)dblAngle);
+        }
         g.setColor(clrWhite);
         
         //Drawing Triangle Edge Lines
         g.drawLine(intX1, intY1, intX2, intY2);
         g.drawLine(intX1, intY1, intX1, intY2);
         g.drawLine(intX1, intY2, intX2, intY2);
+
+        //Highlights the Relavent Triangle Sides
+        if(intTrigSelected == 1){
+            g.setColor(clrOrange);
+            g.drawLine(intX1, intY1, intX2, intY2);
+            g.drawLine(intX1, intY2, intX2, intY2);
+            g.setColor(clrWhite);
+        }
+        else if(intTrigSelected == 2){
+            g.setColor(clrOrange);
+            g.drawLine(intX1, intY1, intX2, intY2);
+            g.drawLine(intX1, intY1, intX1, intY2);
+            g.setColor(clrWhite);
+        }
+        else if(intTrigSelected == 3){
+            g.setColor(clrOrange);
+            g.drawLine(intX1, intY1, intX1, intY2);
+            g.drawLine(intX1, intY2, intX2, intY2);
+            g.setColor(clrWhite);
+        }
 
         //Draws the Base Dragger Points
         g.fillOval(intX1 - 5, intY1 - 5, 11, 11);
@@ -113,6 +139,7 @@ public class panelgraphics extends JPanel{
             g.fillOval(intX1 - 5, intY2 - 5, 11, 11);
             g.setColor(clrWhite);
         }
+
     }
 
     //Constructor
@@ -228,9 +255,19 @@ public class panelgraphics extends JPanel{
     }
 
     public void baseDragged(){
-        snapTo(); //Rounds to nearest slot
-        getGridCoords(); //Gets the 
+        snapTo();
+        getGridCoords();
         restrictPos();
         System.out.println(intX1+" | "+intPosX1+" | "+intY1+" | "+intPosY1+" | "+intX2+" | "+intPosX2+" | "+intY2+" | "+intPosY2+" | "+intLengthX+" | "+intLengthY);
+    }
+
+    public void lengthAdjusted(){
+        getX2();
+        restrictPos();
+        getLength();
+    }
+
+    public void angleAdjusted(){
+        
     }
 }
