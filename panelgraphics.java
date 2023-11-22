@@ -59,6 +59,32 @@ public class panelgraphics extends JPanel{
         g.fillOval(intX2 - 5, intY2 - 5, 11, 11);
         g.fillOval(intX1 - 5, intY2 - 5, 11, 11);
 
+        //Draws the Length of the Sides
+        if(intLengthY > 0){
+            g.drawString(""+intLengthX, intX1 + (intLengthX * 20 / 2) - 3, intY2 + 15);
+        }
+        else if(intLengthY < 0){
+            g.drawString(""+intLengthX, intX1 + (intLengthX * 20 / 2) - 3, intY2 - 7);
+        }
+        if(intLengthX > 0 && intLengthY > 9){
+            g.drawString(""+intLengthY, intX1 - 20, intY1 + (intLengthY * 20 / 2) + 5);
+        }
+        else if(intLengthX > 0 && intLengthY < -9){
+            g.drawString(""+intLengthY, intX1 - 25, intY1 + (intLengthY * 20 / 2) + 5);
+        }
+        else if(intLengthX > 0 && intLengthY < 0){
+            g.drawString(""+intLengthY, intX1 - 20, intY1 + (intLengthY * 20 / 2) + 5);
+        } 
+        else if(intLengthX > 0){
+            g.drawString(""+intLengthY, intX1 - 15, intY1 + (intLengthY * 20 / 2) + 5);
+        }
+        else if(intLengthX < 0){
+            g.drawString(""+intLengthY, intX1 + 10, intY1 + (intLengthY * 20 / 2) + 5);
+        }
+        
+        //Drawing the ARC
+        g.drawArc(intX1 - 10, intY1 - 10, 25, 25, 270, 30);
+
         //Highlights the Selected Dragger Point
         if(intPointSelected == 1){
             g.setColor(clrRed);

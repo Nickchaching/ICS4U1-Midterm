@@ -59,6 +59,8 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
             thePanel.intY1 = evt.getY() - thePanel.intLengthY * 20;
             thePanel.baseDragged();
         }
+        aText.setText(""+thePanel.intLengthX);
+        bText.setText(""+thePanel.intLengthY);
     }
 
     //Computes the Point that is Selected
