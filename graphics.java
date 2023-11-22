@@ -25,7 +25,8 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     // JTextField bText = new JTextField();
     // Labels
     JLabel aLabel = new JLabel("Side A: ", JLabel.CENTER);
-    JLabel bLabel = new JLabel("Side B/Angle A", JLabel.CENTER);
+    JLabel bLabel = new JLabel("Side B: ", JLabel.CENTER);
+    JLabel cLabel = new JLabel("Angle A", JLabel.CENTER);
     JLabel modeLabel = new JLabel("Selected mode: None", JLabel.CENTER);
     JLabel resultLabel = new JLabel("Result: ", JLabel.CENTER);
     // Slider
@@ -64,8 +65,9 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
             thePanel.intY1 = evt.getY() - thePanel.intLengthY * 20;
             thePanel.baseDragged();
         }
-        aLabel.setText("Side A: " + thePanel.intLengthX);
-        bLabel.setText("Side B:" + thePanel.intLengthY);
+        aLabel.setText("Side A: " + Math.abs(thePanel.intLengthX));
+        bLabel.setText("Side B: " + Math.abs(thePanel.intLengthY));
+        cLabel.setText("Angle A: " + thePanel.dblAngle);
     }
 
     // Computes the Point that is Selected
@@ -109,15 +111,15 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         thePanel.setLayout(null);
         // Sin Button
         sinButton.setSize(235, 40);
-        sinButton.setLocation(20, 148);
+        sinButton.setLocation(20, 350);
         thePanel.add(sinButton);
         // Cos Button
         cosButton.setSize(235, 40);
-        cosButton.setLocation(20, 234);
+        cosButton.setLocation(20, 436);
         thePanel.add(cosButton);
         // Tan Button
         tanButton.setSize(235, 40);
-        tanButton.setLocation(20, 320);
+        tanButton.setLocation(20, 522);
         thePanel.add(tanButton);
         // Mode A Buttons
         // modeA.setSize(107, 40);
@@ -147,22 +149,30 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         // thePanel.add(modeLabel);
 
         // Sliders
+        slideSideA.setLocation(20, 88);
         thePanel.add(slideSideA);
+        slideSideB.setLocation(20, 174);
         thePanel.add(slideSideB);
+        slideAngle.setLocation(20, 260);
         thePanel.add(slideAngle);
-        // Label for Field A
+        // Label for Side A
         aLabel.setSize(235, 40);
-        aLabel.setLocation(20, 406);
+        aLabel.setLocation(20, 68);
         aLabel.setForeground(Color.white);
         thePanel.add(aLabel);
-        // Label for Field B
+        // Label for Side B
         bLabel.setSize(235, 40);
-        bLabel.setLocation(20, 492);
+        bLabel.setLocation(20, 154);
         bLabel.setForeground(Color.white);
         thePanel.add(bLabel);
+        // Label for Angle A
+        cLabel.setSize(235, 40);
+        cLabel.setLocation(20, 240);
+        cLabel.setForeground(Color.white);
+        thePanel.add(cLabel);
         // Label for Result
         resultLabel.setSize(235, 40);
-        resultLabel.setLocation(20, 650);
+        resultLabel.setLocation(20, 600);
         resultLabel.setForeground(Color.white);
         thePanel.add(resultLabel);
 
