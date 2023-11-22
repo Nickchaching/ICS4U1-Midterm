@@ -9,6 +9,8 @@ public class panelgraphics extends JPanel{
     int intPosY1 = 15;
     int intLengthX = 4;
     int intLengthY = 3;
+    double dblLengthHyp;
+    double dblAngle;
     int intPosX2;
     int intPosY2;
     int intX1;
@@ -83,7 +85,8 @@ public class panelgraphics extends JPanel{
         }
         
         //Drawing the ARC
-        g.drawArc(intX1 - 10, intY1 - 10, 25, 25, 270, 30);
+        getTrig();
+        g.drawArc(intX1 - 10, intY1 - 10, 25, 25, 270, (int)dblAngle);
 
         //Highlights the Selected Dragger Point
         if(intPointSelected == 1){
@@ -109,6 +112,11 @@ public class panelgraphics extends JPanel{
         
     }
 
+    private void getTrig(){
+        dblLengthHyp = Math.sqrt(Math.pow(intLengthX, 2) + Math.pow(intLengthY, 2));
+        dblAngle = Math.toDegrees(Math.asin(intLengthX/dblLengthHyp));
+    }
+    
     //Computes the X2 values based on Length and X1 values 
     private void getX2(){
         this.intPosX2 = intPosX1 + intLengthX;
