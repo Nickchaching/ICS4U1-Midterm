@@ -5,8 +5,8 @@ public class panelgraphics extends JPanel{
     //Properties
     
     //POS Values refer to grid (35x35) [0, 34]
-    int intPosX1 = 16;
-    int intPosY1 = 16;
+    int intPosX1 = 15;
+    int intPosY1 = 15;
     int intLengthX = 4;
     int intLengthY = 3;
     int intPosX2;
@@ -44,17 +44,24 @@ public class panelgraphics extends JPanel{
         //Draw Triangle
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(3));
-
+        
+        getX2();
         getGridCoords();
 
         g.drawLine(intX1, intY1, intX2, intY2);
+        g.drawLine(intX1, intY1, intX1, intY2);
+        g.drawLine(intX1, intY2, intX2, intY2);
+
+        g.fillOval(intX1 - 5, intY1 - 5, 11, 11);
+        g.fillOval(intX1 - 5, intY2 - 5, 11, 11);
+        g.fillOval(intX2 - 5, intY2 - 5, 11, 11);
 
     }
 
     //Constructor
     public panelgraphics(){
+      
         
-
     }
 
     //Computes the X2 values based on Length and X1 values 
@@ -65,7 +72,8 @@ public class panelgraphics extends JPanel{
 
     //Computes the Length values based on the X1 & X2 values
     private void getLength(){
-
+        this.intLengthX = intPosX2 - intPosX1;
+        this.intLengthY = intPosY2 - intPosY1;
     }
 
     //Converts Grid Coordinates to integer position values
@@ -74,5 +82,39 @@ public class panelgraphics extends JPanel{
         this.intY1 = 20 + (intPosY1 * 20);
         this.intX2 = 300 + (intPosX2 * 20);
         this.intY2 = 20 + (intPosY2 * 20);
+    }
+
+    //Snaps coordinates to the grid after dragging
+    private void snapTo(){
+        if(this.intX1 % 20 <= 10){
+            this.intX1 = this.intX1 - (this.intX1 % 20);
+        }
+        else{
+            this.intX1 = this.intX1 - (this.intX1 % 20) + 20;
+        }
+        if(this.intY1 % 20 <= 10){
+            this.intY1 = this.intY1 - (this.intY1 % 20);
+        }
+        else{
+            this.intY1 = this.intY1 - (this.intY1 % 20) + 20;
+        }
+        if(this.intY2 % 20 <= 10){
+            this.intX2 = this.intX2 - (this.intX2 % 20);
+        }
+        else{
+            this.intX2 = this.intX2 - (this.intX2 % 20) + 20;
+        }
+        if(this.intY2 % 20 <= 10){
+            this.intY2 = this.intY2 - (this.intY2 % 20);
+        }
+        else{
+            this.intY2 = this.intY2 - (this.intY2 % 20) + 20;
+        }
+    }
+
+    //Activated after a point is dragged to recalulate length and snap to grid
+    public void pointDragged(){
+        snapTo();
+        getLength();
     }
 }
