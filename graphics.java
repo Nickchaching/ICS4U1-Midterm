@@ -4,11 +4,17 @@ import javax.swing.*;
 import java.awt.event.*;
 import javax.swing.event.*;
 
-public class graphics implements ActionListener, MouseMotionListener, MouseListener, ChangeListener{
+public class graphics implements ActionListener, MouseMotionListener, MouseListener, ChangeListener, MenuListener{
     // Properties
+    Font theFont15 = new Font("Dialog", 1, 15);
+
     JFrame theFrame = new JFrame("SOH CAH TOA Simulator");
     panelgraphics thePanel = new panelgraphics();
     Timer newFrame = new Timer(1000 / 48, this);
+
+    JMenuBar theBar = new JMenuBar();
+    JMenu aboutMenu = new JMenu("About");
+    JMenu helpMenu = new JMenu("Help");
 
     // Toggle Button
     // ButtonGroup group = new ButtonGroup();
@@ -18,6 +24,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     JButton sinButton = new JButton("Sin");
     JButton cosButton = new JButton("Cos");
     JButton tanButton = new JButton("Tan");
+    JButton demoButton = new JButton("Show Demonstration");
     // JButton modeA = new JButton("Mode 1");
     // JButton modeB = new JButton("Mode 2");
     // Text Fields
@@ -28,7 +35,6 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     JLabel bLabel = new JLabel("Side B: ", JLabel.CENTER);
     JLabel cLabel = new JLabel("Angle A", JLabel.CENTER);
     JLabel modeLabel = new JLabel("Selected mode: None", JLabel.CENTER);
-    JLabel resultLabel = new JLabel("Result: ", JLabel.CENTER);
     // Slider
     JSlider slideSideA = new JSlider(JSlider.HORIZONTAL, 0, 32, 10);
     JSlider slideSideB = new JSlider(JSlider.HORIZONTAL, 0, 25, 10);
@@ -51,6 +57,9 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         }
         else if(evt.getSource() == tanButton){
             thePanel.intTrigSelected = 3;
+        }
+        else if(evt.getSource() == demoButton){
+
         }
         // if (evt.getSource() == modeA) {
         // bLabel.setText("Side B");
@@ -140,52 +149,46 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
 
     }
 
+    public void menuSelected(MenuEvent evt){
+
+    }
+
+    public void menuDeselected(MenuEvent evt){
+
+    }
+
+    public void menuCanceled(MenuEvent evt){
+
+    }
+
     // Constructor
     public graphics(){
         // Panel
         thePanel.setPreferredSize(new Dimension(960, 540));
         thePanel.setLayout(null);
+
+        // Menu
+        theBar.add(aboutMenu);
+        theBar.add(helpMenu);
+        
+
         // Sin Button
-        sinButton.setSize(235, 40);
-        sinButton.setLocation(20, 350);
+        sinButton.setSize(78, 40);
+        sinButton.setLocation(20, 200);
         thePanel.add(sinButton);
         // Cos Button
-        cosButton.setSize(235, 40);
-        cosButton.setLocation(20, 436);
+        cosButton.setSize(78, 40);
+        cosButton.setLocation(98, 200);
         thePanel.add(cosButton);
         // Tan Button
-        tanButton.setSize(235, 40);
-        tanButton.setLocation(20, 522);
+        tanButton.setSize(78, 40);
+        tanButton.setLocation(176, 200);
         thePanel.add(tanButton);
-        // Mode A Buttons
-        // modeA.setSize(107, 40);
-        // modeA.setLocation(20, 50);
-        // thePanel.add(modeA);
-        // Mode B Button
-        // modeB.setSize(107, 40);
-        // modeB.setLocation(147, 50);
-        // thePanel.add(modeB);
-        // note: set up ActionListener for sin/cos/tan buttons
-        //
-        // group.add(modeA);
-        // group.add(modeB);
-        // thePanel.add(group);
-        // Text Field A
-        // aText.setSize(235, 40);
-        // aText.setLocation(20, 446);
-        // thePanel.add(aText);
-        // Text Field B
-        // bText.setSize(235, 40);
-        // bText.setLocation(20, 532);
-        // thePanel.add(bText);
-        // Label for Selected Mode
-        // modeLabel.setSize(235, 40);
-        // modeLabel.setLocation(20, 10);
-        // modeLabel.setForeground(Color.white);
-        // thePanel.add(modeLabel);
+        // Demo  
+        thePanel.add(demoButton);
 
         //Slider Side A
-        slideSideA.setLocation(20, 110);
+        slideSideA.setLocation(20, 52);
         slideSideA.setSize(235, 40);
         slideSideA.setMajorTickSpacing(5);
         slideSideA.setMinorTickSpacing(1);
@@ -196,7 +199,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         thePanel.add(slideSideA);
 
         //Slider Side B
-        slideSideB.setLocation(20, 195);
+        slideSideB.setLocation(20, 132);
         slideSideB.setSize(235, 40);
         slideSideB.setMajorTickSpacing(5);
         slideSideB.setMinorTickSpacing(1);
@@ -206,30 +209,21 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         slideSideB.setForeground(thePanel.clrWhite);
         thePanel.add(slideSideB);
 
-        //Slider Angle A
-        slideAngle.setLocation(20, 260);
-        thePanel.add(slideAngle);
         
         //Label for Side A
         aLabel.setSize(235, 40);
-        aLabel.setLocation(20, 68);
+        aLabel.setLocation(20, 10);
         aLabel.setForeground(Color.white);
+        aLabel.setFont(theFont15);
         thePanel.add(aLabel);
         //Label for Side B
         bLabel.setSize(235, 40);
-        bLabel.setLocation(20, 154);
+        bLabel.setLocation(20, 92);
         bLabel.setForeground(Color.white);
+        bLabel.setFont(theFont15);
         thePanel.add(bLabel);
-        //Label for Angle A
-        cLabel.setSize(235, 40);
-        cLabel.setLocation(20, 240);
-        cLabel.setForeground(Color.white);
-        thePanel.add(cLabel);
-        //Label for Result
-        resultLabel.setSize(235, 40);
-        resultLabel.setLocation(20, 600);
-        resultLabel.setForeground(Color.white);
-        thePanel.add(resultLabel);
+        
+    
 
         //Adding Listeners
         thePanel.addMouseMotionListener(this);
@@ -243,6 +237,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         //Packing Frame
         theFrame.setContentPane(thePanel);
         theFrame.pack();
+        theFrame.setJMenuBar(theBar);
         theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         theFrame.setVisible(true);
         newFrame.start();
