@@ -21,7 +21,8 @@ public class panelgraphics extends JPanel{
     int intPointSelected;
     int intTrigSelected;
 
-    Font theFont = new Font("Dialog", 1, 12);
+    Font theFont12 = new Font("Dialog", 1, 12);
+    Font theFont16 = new Font("Dialog", 1, 16);
     
     Color clrBackground = new Color(37, 37, 37);
     Color clrGrid = new Color(50, 50, 50);
@@ -31,7 +32,7 @@ public class panelgraphics extends JPanel{
 
     //Methods
     public void paintComponent(Graphics g){
-        g.setFont(theFont);
+        g.setFont(theFont12);
         g.setColor(clrBackground);        
         g.fillRect(0, 0, 960, 540);
 
@@ -107,15 +108,16 @@ public class panelgraphics extends JPanel{
         if(intTrigSelected == 1 || intTrigSelected == 3){
             g.setColor(clrRed);
         }
-        if(intLengthY > 0){
+        if(intLengthY > 0 && intLengthX != 0){
             g.drawString(""+intLengthX, intX1 + (intLengthX * 20 / 2) - 3, intY2 + 15);
         }
-        else if(intLengthY < 0){
+        else if(intLengthY < 0 && intLengthX != 0){
             g.drawString(""+intLengthX, intX1 + (intLengthX * 20 / 2) - 3, intY2 - 7);
         }
         if(intTrigSelected == 1 || intTrigSelected == 3){
             g.setColor(clrWhite);
         }
+
         if(intTrigSelected == 2 || intTrigSelected == 3){
             g.setColor(clrRed);
         }
@@ -128,17 +130,59 @@ public class panelgraphics extends JPanel{
         else if(intLengthX > 0 && intLengthY < 0){
             g.drawString(""+intLengthY, intX1 - 20, intY1 + (intLengthY * 20 / 2) + 5);
         } 
-        else if(intLengthX > 0){
+        else if(intLengthX > 0 && intLengthY != 0){
             g.drawString(""+intLengthY, intX1 - 15, intY1 + (intLengthY * 20 / 2) + 5);
         }
-        else if(intLengthX < 0){
+        else if(intLengthX < 0 && intLengthY != 0){
             g.drawString(""+intLengthY, intX1 + 10, intY1 + (intLengthY * 20 / 2) + 5);
         }
         if(intTrigSelected == 2 || intTrigSelected == 3){
             g.setColor(clrWhite);
         }
 
+        if(intTrigSelected == 1 || intTrigSelected == 2){
+            g.setColor(clrRed);
+        }
+        if(intLengthX >= 0 && intLengthY >= 0){
+            g.drawString(""+Math.round(dblLengthHyp * 10.0)/10.0, (intX1 + intX2)/2, (intY1 + intY2)/2 - 10);
+        }
+        else if(intLengthX >= 0 && intLengthY <= 0){
+            g.drawString(""+Math.round(dblLengthHyp * 10.0)/10.0, (intX1 + intX2)/2, (intY1 + intY2)/2 + 20);
+        }
+        else if(intLengthX <= 0 && intLengthY >= 0){
+            g.drawString(""+Math.round(dblLengthHyp * 10.0)/10.0, (intX1 + intX2)/2 - 20, (intY1 + intY2)/2 - 10);
+        }
+        else if(intLengthX <= 0 && intLengthY <= 0){
+            g.drawString(""+Math.round(dblLengthHyp * 10.0)/10.0, (intX1 + intX2)/2 - 20, (intY1 + intY2)/2 + 20);
+        }
+        if(intTrigSelected == 1 || intTrigSelected == 2){
+            g.setColor(clrWhite);
+        }
+        
+
         //Drawing ABC Vertex Points
+        g.setFont(theFont16);
+        if(intLengthX >= 0 && intLengthY >= 0){
+            g.drawString("A", intX1 - 5, intY1 - 10);
+            g.drawString("B", intX2 + 10, intY2 + 5);
+            g.drawString("C", intX1 - 20, intY2 + 5);
+        }
+        else if(intLengthX >= 0 && intLengthY <= 0){
+            g.drawString("A", intX1 - 5, intY1 + 22);
+            g.drawString("B", intX2 + 10, intY2 + 5);
+            g.drawString("C", intX1 - 20, intY2 + 5);
+        }
+        else if(intLengthX <= 0 && intLengthY >= 0){
+            g.drawString("A", intX1 - 5, intY1 - 10);
+            g.drawString("B", intX2 - 20, intY2 + 5);
+            g.drawString("C", intX1 + 10, intY2 + 5);
+        }
+        else if(intLengthX <= 0 && intLengthY <= 0){
+            g.drawString("A", intX1 - 5, intY1 + 22);
+            g.drawString("B", intX2 - 20, intY2 + 5);
+            g.drawString("C", intX1 + 10, intY2 + 5);
+        }
+
 
         //Highlights the Selected Dragger Point
         if(intPointSelected == 1){
