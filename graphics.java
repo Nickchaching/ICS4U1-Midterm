@@ -12,14 +12,6 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     panelgraphics thePanel = new panelgraphics();
     Timer newFrame = new Timer(1000 / 48, this);
 
-    JMenuBar theBar = new JMenuBar();
-    JMenu aboutMenu = new JMenu("About");
-    JMenu helpMenu = new JMenu("Help");
-
-    // Toggle Button
-    // ButtonGroup group = new ButtonGroup();
-    // JToggleButton modeA = new JToggleButton("Side A, Side B");
-    // JToggleButton modeB = new JToggleButton("Side A, Angle A");
     // Button
     JButton sinButton = new JButton("Sin");
     JButton cosButton = new JButton("Cos");
@@ -167,9 +159,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         thePanel.setPreferredSize(new Dimension(960, 540));
         thePanel.setLayout(null);
 
-        // Menu
-        theBar.add(aboutMenu);
-        theBar.add(helpMenu);
+
         
 
         // Sin Button
@@ -185,6 +175,8 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         tanButton.setLocation(176, 200);
         thePanel.add(tanButton);
         // Demo  
+        demoButton.setSize(235,40);
+        demoButton.setLocation(20,260);
         thePanel.add(demoButton);
 
         //Slider Side A
@@ -237,7 +229,6 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         //Packing Frame
         theFrame.setContentPane(thePanel);
         theFrame.pack();
-        theFrame.setJMenuBar(theBar);
         theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         theFrame.setVisible(true);
         newFrame.start();
