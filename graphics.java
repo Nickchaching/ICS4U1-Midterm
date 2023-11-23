@@ -31,6 +31,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     JSlider slideSideA = new JSlider(JSlider.HORIZONTAL, 0, 32, 10);
     JSlider slideSideB = new JSlider(JSlider.HORIZONTAL, 0, 25, 10);
     JSlider slideAngle = new JSlider(JSlider.HORIZONTAL, 0, 34, 10);
+    // Menu
     JMenuBar theBar = new JMenuBar();
     JMenu aboutMenu = new JMenu("About");
     JMenu helpMenu = new JMenu("Help");
@@ -145,15 +146,21 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     }
 
     public void menuSelected(MenuEvent evt){
-
+        System.out.println("Menu selected");
+        if(evt.getSource() == aboutMenu){
+            System.out.println("About");
+        }
+        else if(evt.getSource() == helpMenu){
+            System.out.println("Help");
+        }
     }
 
     public void menuDeselected(MenuEvent evt){
-
+        System.out.println("Menu deselected");
     }
 
     public void menuCanceled(MenuEvent evt){
-
+        System.out.println("Menu canceled");
     }
 
     // Constructor
