@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import javax.swing.event.*;
 
-public class graphics implements ActionListener, MouseMotionListener, MouseListener{
+public class graphics implements ActionListener, MouseMotionListener, MouseListener, ChangeListener{
     // Properties
     JFrame theFrame = new JFrame("SOH CAH TOA Simulator");
     panelgraphics thePanel = new panelgraphics();
@@ -35,10 +35,22 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     JSlider slideAngle = new JSlider(JSlider.HORIZONTAL, 0, 34, 10);
 
     // Methods
-    public void actionPerformed(ActionEvent evt) {
-        if (evt.getSource() == newFrame) {
+    public void actionPerformed(ActionEvent evt){
+        //New Frame Gen
+        if(evt.getSource() == newFrame){
             thePanel.repaint();
             newFrame.start();
+        }
+
+        //SIN/COS/TAN Highlight
+        else if(evt.getSource() == sinButton){
+            thePanel.intTrigSelected = 1;
+        }
+        else if(evt.getSource() == cosButton){
+            thePanel.intTrigSelected = 2;
+        }
+        else if(evt.getSource() == tanButton){
+            thePanel.intTrigSelected = 3;
         }
         // if (evt.getSource() == modeA) {
         // bLabel.setText("Side B");
@@ -49,63 +61,87 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         // }
     }
 
-    public void mouseDragged(MouseEvent evt) {
-        if (thePanel.intPointSelected == 1) {
+    //Updates the Selected Point Value
+    public void mouseDragged(MouseEvent evt){
+        if(thePanel.intPointSelected == 1){
             thePanel.intX1 = evt.getX();
             thePanel.intY1 = evt.getY();
             thePanel.pointDragged();
-        } else if (thePanel.intPointSelected == 2) {
+            slideSideA.setValue(thePanel.intLengthX);
+            slideSideB.setValue(thePanel.intLengthY);
+        } 
+        else if(thePanel.intPointSelected == 2){
             thePanel.intX2 = evt.getX();
             thePanel.intY2 = evt.getY();
             thePanel.pointDragged();
-        } else if (thePanel.intPointSelected == 3) {
+            slideSideA.setValue(thePanel.intLengthX);
+            slideSideB.setValue(thePanel.intLengthY);
+        } 
+        else if(thePanel.intPointSelected == 3){
             thePanel.intX1 = evt.getX();
             thePanel.intY2 = evt.getY();
             thePanel.intX2 = evt.getX() + thePanel.intLengthX * 20;
             thePanel.intY1 = evt.getY() - thePanel.intLengthY * 20;
             thePanel.baseDragged();
         }
-        aLabel.setText("Side A: " + Math.abs(thePanel.intLengthX));
-        bLabel.setText("Side B: " + Math.abs(thePanel.intLengthY));
-        cLabel.setText("Angle A: " + thePanel.dblAngle);
+        
+        updateLabels();
     }
 
     // Computes the Point that is Selected
-    public void mousePressed(MouseEvent evt) {
-        if (evt.getX() < thePanel.intX1 + 5 && evt.getX() > thePanel.intX1 - 5 && evt.getY() < thePanel.intY1 + 5
-                && evt.getY() > thePanel.intY1 - 5) {
+    public void mousePressed(MouseEvent evt){
+        if(evt.getX() < thePanel.intX1 + 5 && evt.getX() > thePanel.intX1 - 5 && evt.getY() < thePanel.intY1 + 5 && evt.getY() > thePanel.intY1 - 5){
             thePanel.intPointSelected = 1;
-        } else if (evt.getX() < thePanel.intX2 + 5 && evt.getX() > thePanel.intX2 - 5 && evt.getY() < thePanel.intY2 + 5
-                && evt.getY() > thePanel.intY2 - 5) {
+        } 
+        else if(evt.getX() < thePanel.intX2 + 5 && evt.getX() > thePanel.intX2 - 5 && evt.getY() < thePanel.intY2 + 5 && evt.getY() > thePanel.intY2 - 5){
             thePanel.intPointSelected = 2;
-        } else if (evt.getX() < thePanel.intX1 + 5 && evt.getX() > thePanel.intX1 - 5 && evt.getY() < thePanel.intY2 + 5
-                && evt.getY() > thePanel.intY2 - 5) {
+        } 
+        else if(evt.getX() < thePanel.intX1 + 5 && evt.getX() > thePanel.intX1 - 5 && evt.getY() < thePanel.intY2 + 5 && evt.getY() > thePanel.intY2 - 5){
             thePanel.intPointSelected = 3;
         }
     }
 
-    public void mouseReleased(MouseEvent evt) {
+    public void mouseReleased(MouseEvent evt){
         thePanel.intPointSelected = 0;
     }
 
-    public void mouseExited(MouseEvent evt) {
+    public void stateChanged(ChangeEvent evt){
+        if(evt.getSource() == slideSideA){
+            thePanel.intLengthX = slideSideA.getValue();
+            thePanel.lengthAdjusted();
+        }
+        else if(evt.getSource() == slideSideB){
+            thePanel.intLengthY = slideSideB.getValue();
+            thePanel.lengthAdjusted();
+        }
+
+        updateLabels();
+    }
+
+    public void updateLabels(){
+        aLabel.setText("Side A: " + thePanel.intLengthX);
+        bLabel.setText("Side B: " + thePanel.intLengthY);
+        cLabel.setText("Angle A: " + thePanel.dblAngle);
+    }
+
+    public void mouseExited(MouseEvent evt){
 
     }
 
-    public void mouseClicked(MouseEvent evt) {
+    public void mouseClicked(MouseEvent evt){
 
     }
 
-    public void mouseEntered(MouseEvent evt) {
+    public void mouseEntered(MouseEvent evt){
 
     }
 
-    public void mouseMoved(MouseEvent evt) {
+    public void mouseMoved(MouseEvent evt){
 
     }
 
     // Constructor
-    public graphics() {
+    public graphics(){
         // Panel
         thePanel.setPreferredSize(new Dimension(1000, 720));
         thePanel.setLayout(null);
@@ -148,42 +184,63 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         // modeLabel.setForeground(Color.white);
         // thePanel.add(modeLabel);
 
-        // Slider Side A
-        slideSideA.setLocation(20, 88);
-        slideSideA.setMajorTickSpacing(2);
+        //Slider Side A
+        slideSideA.setLocation(20, 110);
+        slideSideA.setSize(235, 40);
+        slideSideA.setMajorTickSpacing(5);
+        slideSideA.setMinorTickSpacing(1);
         slideSideA.setPaintTicks(true);
+        slideSideA.setPaintLabels(true);
+        slideSideA.setBackground(thePanel.clrBackground);
+        slideSideA.setForeground(thePanel.clrWhite);
         thePanel.add(slideSideA);
-        // Slider Side B
-        slideSideB.setLocation(20, 174);
+
+        //Slider Side B
+        slideSideB.setLocation(20, 195);
+        slideSideB.setSize(235, 40);
+        slideSideB.setMajorTickSpacing(5);
+        slideSideB.setMinorTickSpacing(1);
+        slideSideB.setPaintTicks(true);
+        slideSideB.setPaintLabels(true);
+        slideSideB.setBackground(thePanel.clrBackground);
+        slideSideB.setForeground(thePanel.clrWhite);
         thePanel.add(slideSideB);
-        // Slider Angle A
+
+        //Slider Angle A
         slideAngle.setLocation(20, 260);
         thePanel.add(slideAngle);
-        // Label for Side A
+        
+        //Label for Side A
         aLabel.setSize(235, 40);
         aLabel.setLocation(20, 68);
         aLabel.setForeground(Color.white);
         thePanel.add(aLabel);
-        // Label for Side B
+        //Label for Side B
         bLabel.setSize(235, 40);
         bLabel.setLocation(20, 154);
         bLabel.setForeground(Color.white);
         thePanel.add(bLabel);
-        // Label for Angle A
+        //Label for Angle A
         cLabel.setSize(235, 40);
         cLabel.setLocation(20, 240);
         cLabel.setForeground(Color.white);
         thePanel.add(cLabel);
-        // Label for Result
+        //Label for Result
         resultLabel.setSize(235, 40);
         resultLabel.setLocation(20, 600);
         resultLabel.setForeground(Color.white);
         thePanel.add(resultLabel);
 
-        // Adding Listeners
+        //Adding Listeners
         thePanel.addMouseMotionListener(this);
         thePanel.addMouseListener(this);
+        sinButton.addActionListener(this);
+        cosButton.addActionListener(this);
+        tanButton.addActionListener(this);
+        slideSideA.addChangeListener(this);
+        slideSideB.addChangeListener(this);
 
+        //Packing Frame
         theFrame.setContentPane(thePanel);
         theFrame.pack();
         theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

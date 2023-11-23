@@ -101,11 +101,20 @@ public class panelgraphics extends JPanel{
         g.fillOval(intX1 - 5, intY2 - 5, 11, 11);
 
         //Draws the Length of the Sides
+        if(intTrigSelected == 1 || intTrigSelected == 3){
+            g.setColor(clrRed);
+        }
         if(intLengthY > 0){
             g.drawString(""+intLengthX, intX1 + (intLengthX * 20 / 2) - 3, intY2 + 15);
         }
         else if(intLengthY < 0){
             g.drawString(""+intLengthX, intX1 + (intLengthX * 20 / 2) - 3, intY2 - 7);
+        }
+        if(intTrigSelected == 1 || intTrigSelected == 3){
+            g.setColor(clrWhite);
+        }
+        if(intTrigSelected == 2 || intTrigSelected == 3){
+            g.setColor(clrRed);
         }
         if(intLengthX > 0 && intLengthY > 9){
             g.drawString(""+intLengthY, intX1 - 20, intY1 + (intLengthY * 20 / 2) + 5);
@@ -121,6 +130,9 @@ public class panelgraphics extends JPanel{
         }
         else if(intLengthX < 0){
             g.drawString(""+intLengthY, intX1 + 10, intY1 + (intLengthY * 20 / 2) + 5);
+        }
+        if(intTrigSelected == 2 || intTrigSelected == 3){
+            g.setColor(clrWhite);
         }
 
         //Highlights the Selected Dragger Point
