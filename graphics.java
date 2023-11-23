@@ -46,12 +46,6 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
             if(intPanelSelected == 1){
                 thePanel.repaint();
             }
-            else if(intPanelSelected == 2){
-                theHelpPanel.repaint();
-            }
-            else if(intPanelSelected == 3){
-                theAboutPanel.repaint();
-            }
             newFrame.start();
         }
 
@@ -157,16 +151,31 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     }
 
     public void menuSelected(MenuEvent evt){
+        if(evt.getSource() == helpMenu && intPanelSelected != 2){
+            theFrame.setVisible(false);
+            theFrame.setJMenuBar(null);
+            theFrame.setContentPane(theHelpPanel);
+            theFrame.setJMenuBar(theBar);
+            theFrame.pack();
+            theFrame.setVisible(true);
+        }
+        else if(evt.getSource() == aboutMenu){
+            theFrame.setVisible(false);
+            theFrame.setJMenuBar(null);
+            theFrame.setContentPane(theAboutPanel);
+            theFrame.setJMenuBar(theBar);
+            theFrame.pack();
+            theFrame.setVisible(true);
+        }
+    }
+
+    public void menuDeselected(MenuEvent evt){
         if(evt.getSource() == helpMenu){
             intPanelSelected = 2;
         }
         else if(evt.getSource() == aboutMenu){
             intPanelSelected = 3;
         }
-    }
-
-    public void menuDeselected(MenuEvent evt){
-        
     }
 
     public void menuCanceled(MenuEvent evt){
