@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import javax.swing.event.*;
 
-public class graphics implements ActionListener, MouseMotionListener, MouseListener, ChangeListener {
+public class graphics implements ActionListener, MouseMotionListener, MouseListener{
     // Properties
     JFrame theFrame = new JFrame("SOH CAH TOA Simulator");
     panelgraphics thePanel = new panelgraphics();
@@ -104,13 +104,6 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
 
     }
 
-    public void stateChanged(ChangeEvent evt) {
-        int intValue;
-        if (ChangeListener.source() == slideSideA) {
-            intValue = slideSideA.getValue();
-        }
-    }
-
     // Constructor
     public graphics() {
         // Panel
@@ -159,7 +152,6 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         slideSideA.setLocation(20, 88);
         slideSideA.setMajorTickSpacing(2);
         slideSideA.setPaintTicks(true);
-        slideSideA.addChangeListener(evt);
         thePanel.add(slideSideA);
         // Slider Side B
         slideSideB.setLocation(20, 174);
