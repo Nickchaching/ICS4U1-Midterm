@@ -31,6 +31,9 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     JSlider slideSideA = new JSlider(JSlider.HORIZONTAL, 0, 32, 10);
     JSlider slideSideB = new JSlider(JSlider.HORIZONTAL, 0, 25, 10);
     JSlider slideAngle = new JSlider(JSlider.HORIZONTAL, 0, 34, 10);
+    JMenuBar theBar = new JMenuBar();
+    JMenu aboutMenu = new JMenu("About");
+    JMenu helpMenu = new JMenu("Help");
 
     // Methods
     public void actionPerformed(ActionEvent evt){
@@ -159,6 +162,9 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         thePanel.setPreferredSize(new Dimension(960, 540));
         thePanel.setLayout(null);
 
+        // Menu
+        theBar.add(aboutMenu);
+        theBar.add(helpMenu);
 
         
 
@@ -215,8 +221,6 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         bLabel.setFont(theFont15);
         thePanel.add(bLabel);
         
-    
-
         //Adding Listeners
         thePanel.addMouseMotionListener(this);
         thePanel.addMouseListener(this);
@@ -229,6 +233,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         //Packing Frame
         theFrame.setContentPane(thePanel);
         theFrame.pack();
+        theFrame.setJMenuBar(theBar);
         theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         theFrame.setVisible(true);
         newFrame.start();
