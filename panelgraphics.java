@@ -4,7 +4,7 @@ import javax.swing.*;
 public class panelgraphics extends JPanel{
     //Properties
     
-    //POS Values refer to grid (35x35) [0, 34]
+    //POS Values refer to grid (33x26) [0, 32] [0, 25]
     int intPosX1 = 15;
     int intPosY1 = 15;
     int intLengthX = 4;
@@ -20,6 +20,8 @@ public class panelgraphics extends JPanel{
     int intY2;
     int intPointSelected;
     int intTrigSelected;
+
+    Font theFont = new Font("Dialog", 1, 12);
     
     Color clrBackground = new Color(37, 37, 37);
     Color clrGrid = new Color(50, 50, 50);
@@ -29,24 +31,25 @@ public class panelgraphics extends JPanel{
 
     //Methods
     public void paintComponent(Graphics g){
+        g.setFont(theFont);
         g.setColor(clrBackground);        
-        g.fillRect(0, 0, 1000, 1000);
+        g.fillRect(0, 0, 960, 540);
 
         //Grid
         g.setColor(clrGrid);
         
         //Automatic Line Populating
         int intCount;
-        for(intCount = 0; intCount < 36; intCount++){
-            g.drawLine(280 + intCount * 20, 0, 280 + intCount * 20, 720);
+        for(intCount = 0; intCount < 34; intCount++){
+            g.drawLine(280 + intCount * 20, 0, 280 + intCount * 20, 540);
         }
-        for(intCount = 0; intCount < 36; intCount++){
-            g.drawLine(280, intCount * 20, 1000, intCount * 20);
+        for(intCount = 0; intCount < 27; intCount++){
+            g.drawLine(280, intCount * 20, 960, intCount * 20);
         }
 
         //Divider Line
         g.setColor(clrWhite);
-        g.fillRect(275, 0, 5, 720);
+        g.fillRect(275, 0, 5, 540);
 
         //Draw Triangle
         Graphics2D g2 = (Graphics2D) g;
@@ -135,6 +138,8 @@ public class panelgraphics extends JPanel{
             g.setColor(clrWhite);
         }
 
+        //Drawing ABC Vertex Points
+
         //Highlights the Selected Dragger Point
         if(intPointSelected == 1){
             g.setColor(clrRed);
@@ -221,39 +226,39 @@ public class panelgraphics extends JPanel{
         }
     }
 
-    //Prevents Points from Going Out of Bounds [0, 34]
+    //Prevents Points from Going Out of Bounds [0, 32] [0, 25]
     private void restrictPos(){
         if(intPosX1 < 0){
             intPosX2 = 0 + intLengthX;
             intPosX1 = 0;
         }
-        else if(intPosX1 > 34){
-            intPosX2 = 34 + intLengthX;
-            intPosX1 = 34;
+        else if(intPosX1 > 32){
+            intPosX2 = 32 + intLengthX;
+            intPosX1 = 32;
         }
         if(intPosY1 < 0){
             intPosY2 = 0 + intLengthY;
             intPosY1 = 0;
         }
-        else if(intPosY1 > 34){
-            intPosY2 = 34 + intLengthY;
-            intPosY1 = 34;
+        else if(intPosY1 > 25){
+            intPosY2 = 25 + intLengthY;
+            intPosY1 = 25;
         }
         if(intPosX2 < 0){
             intPosX1 = 0 - intLengthX;
             intPosX2 = 0;
         }
-        else if(intPosX2 > 34){
-            intPosX1 = 34 - intLengthX;
-            intPosX2 = 34;
+        else if(intPosX2 > 32){
+            intPosX1 = 32 - intLengthX;
+            intPosX2 = 32;
         }
         if(intPosY2 < 0){
             intPosY1 = 0 - intLengthY;
             intPosY2 = 0;
         }
-        else if(intPosY2 > 34){
-            intPosY1 = 34 - intLengthY;
-            intPosY2 = 34;
+        else if(intPosY2 > 25){
+            intPosY1 = 25 - intLengthY;
+            intPosY2 = 25;
         }
     }
 

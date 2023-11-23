@@ -30,8 +30,8 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     JLabel modeLabel = new JLabel("Selected mode: None", JLabel.CENTER);
     JLabel resultLabel = new JLabel("Result: ", JLabel.CENTER);
     // Slider
-    JSlider slideSideA = new JSlider(JSlider.HORIZONTAL, 0, 34, 10);
-    JSlider slideSideB = new JSlider(JSlider.HORIZONTAL, 0, 34, 10);
+    JSlider slideSideA = new JSlider(JSlider.HORIZONTAL, 0, 32, 10);
+    JSlider slideSideB = new JSlider(JSlider.HORIZONTAL, 0, 25, 10);
     JSlider slideAngle = new JSlider(JSlider.HORIZONTAL, 0, 34, 10);
 
     // Methods
@@ -143,7 +143,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     // Constructor
     public graphics(){
         // Panel
-        thePanel.setPreferredSize(new Dimension(1000, 720));
+        thePanel.setPreferredSize(new Dimension(960, 540));
         thePanel.setLayout(null);
         // Sin Button
         sinButton.setSize(235, 40);
