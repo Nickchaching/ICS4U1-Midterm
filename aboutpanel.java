@@ -1,7 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 
-public class aboutpanel {
+public class aboutpanel extends JPanel{
     //Properties
 
     //Methods

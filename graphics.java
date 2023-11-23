@@ -7,9 +7,12 @@ import javax.swing.event.*;
 public class graphics implements ActionListener, MouseMotionListener, MouseListener, ChangeListener, MenuListener{
     // Properties
     Font theFont15 = new Font("Dialog", 1, 15);
+    int intPanelSelected = 1;
 
     JFrame theFrame = new JFrame("SOH CAH TOA Simulator");
     panelgraphics thePanel = new panelgraphics();
+    helppanel theHelpPanel = new helppanel();
+    aboutpanel theAboutPanel = new aboutpanel();
     Timer newFrame = new Timer(1000 / 48, this);
 
     // Button
@@ -40,7 +43,15 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     public void actionPerformed(ActionEvent evt){
         //New Frame Gen
         if(evt.getSource() == newFrame){
-            thePanel.repaint();
+            if(intPanelSelected == 1){
+                thePanel.repaint();
+            }
+            else if(intPanelSelected == 2){
+                theHelpPanel.repaint();
+            }
+            else if(intPanelSelected == 3){
+                theAboutPanel.repaint();
+            }
             newFrame.start();
         }
 
@@ -146,21 +157,20 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     }
 
     public void menuSelected(MenuEvent evt){
-        System.out.println("Menu selected");
-        if(evt.getSource() == aboutMenu){
-            System.out.println("About");
+        if(evt.getSource() == helpMenu){
+            intPanelSelected = 2;
         }
-        else if(evt.getSource() == helpMenu){
-            System.out.println("Help");
+        else if(evt.getSource() == aboutMenu){
+            intPanelSelected = 3;
         }
     }
 
     public void menuDeselected(MenuEvent evt){
-        System.out.println("Menu deselected");
+        
     }
 
     public void menuCanceled(MenuEvent evt){
-        System.out.println("Menu canceled");
+        
     }
 
     // Constructor
@@ -168,12 +178,14 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         // Panel
         thePanel.setPreferredSize(new Dimension(960, 540));
         thePanel.setLayout(null);
+        theHelpPanel.setPreferredSize(new Dimension(960, 540));
+        theHelpPanel.setLayout(null);
+        theAboutPanel.setPreferredSize(new Dimension(960, 540));
+        theAboutPanel.setLayout(null);
 
         // Menu
         theBar.add(aboutMenu);
         theBar.add(helpMenu);
-
-        
 
         // Sin Button
         sinButton.setSize(78, 40);
@@ -236,11 +248,13 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         tanButton.addActionListener(this);
         slideSideA.addChangeListener(this);
         slideSideB.addChangeListener(this);
+        aboutMenu.addMenuListener(this);
+        helpMenu.addMenuListener(this);
 
         //Packing Frame
+        theFrame.setJMenuBar(theBar);
         theFrame.setContentPane(thePanel);
         theFrame.pack();
-        theFrame.setJMenuBar(theBar);
         theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         theFrame.setVisible(true);
         newFrame.start();

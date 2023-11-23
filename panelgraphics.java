@@ -4,7 +4,7 @@ import javax.swing.*;
 public class panelgraphics extends JPanel{
     //Properties
     
-    //POS Values refer to grid (33x25) [0, 32] [0, 24]
+    //POS Values refer to grid (33x26) [0, 32] [0, 25]
     int intPosX1 = 15;
     int intPosY1 = 15;
     int intLengthX = 4;
@@ -44,7 +44,7 @@ public class panelgraphics extends JPanel{
         for(intCount = 0; intCount < 34; intCount++){
             g.drawLine(280 + intCount * 20, 0, 280 + intCount * 20, 540);
         }
-        for(intCount = 0; intCount < 26; intCount++){
+        for(intCount = 0; intCount < 27; intCount++){
             g.drawLine(280, intCount * 20, 960, intCount * 20);
         }
 
@@ -270,7 +270,7 @@ public class panelgraphics extends JPanel{
         }
     }
 
-    //Prevents Points from Going Out of Bounds [0, 32] [0, 24]
+    //Prevents Points from Going Out of Bounds [0, 32] [0, 25]
     private void restrictPos(){
         if(intPosX1 < 0){
             intPosX2 = 0 + intLengthX;
@@ -284,9 +284,9 @@ public class panelgraphics extends JPanel{
             intPosY2 = 0 + intLengthY;
             intPosY1 = 0;
         }
-        else if(intPosY1 > 24){
-            intPosY2 = 24 + intLengthY;
-            intPosY1 = 24;
+        else if(intPosY1 > 25){
+            intPosY2 = 25 + intLengthY;
+            intPosY1 = 25;
         }
         if(intPosX2 < 0){
             intPosX1 = 0 - intLengthX;
@@ -300,9 +300,9 @@ public class panelgraphics extends JPanel{
             intPosY1 = 0 - intLengthY;
             intPosY2 = 0;
         }
-        else if(intPosY2 > 24){
-            intPosY1 = 24 - intLengthY;
-            intPosY2 = 24;
+        else if(intPosY2 > 25){
+            intPosY1 = 25 - intLengthY;
+            intPosY2 = 25;
         }
     }
 
