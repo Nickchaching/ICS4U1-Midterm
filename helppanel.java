@@ -6,7 +6,7 @@ public class helppanel extends JPanel{
 
     //Methods
     public void paintComponent(Graphics g){
-
+        
     }
     
     //Constructor
