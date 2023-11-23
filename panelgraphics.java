@@ -212,7 +212,7 @@ public class panelgraphics extends JPanel{
             this.intY1 = this.intY1 - (this.intY1 % 20) + 20;
         }
 
-        if(this.intY2 % 20 <= 10){
+        if(this.intX2 % 20 <= 10){
             this.intX2 = this.intX2 - (this.intX2 % 20);
         }
         else{
@@ -268,7 +268,7 @@ public class panelgraphics extends JPanel{
         getGridCoords();
         restrictPos();
         getLength();
-        System.out.println(intX1+" | "+intPosX1+" | "+intY1+" | "+intPosY1+" | "+intLengthX+" | "+intLengthY);
+        System.out.println(intX1+" | "+intPosX1+" | "+intY1+" | "+intPosY1+" | "+intX2+" | "+intPosX2+" | "+intY2+" | "+intPosY2+" | "+intLengthX+" | "+intLengthY);
     }
 
     public void baseDragged(){
