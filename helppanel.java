@@ -10,7 +10,7 @@ public class helppanel extends JPanel{
     BufferedImage imgHelp = null;
     //Methods
     public void paintComponent(Graphics g){
-        g.drawImage(imgHelp, -5, 0, null);
+        g.drawImage(imgHelp, 0, 0, null);
     }
     
     //Constructor
