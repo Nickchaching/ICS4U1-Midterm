@@ -1,5 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
+import java.awt.font.*;
+import java.awt.geom.*;
 
 public class panelgraphics extends JPanel{
     //Properties
@@ -20,9 +22,16 @@ public class panelgraphics extends JPanel{
     int intY2;
     int intPointSelected;
     int intTrigSelected;
+    boolean blnShow = false;
+    boolean blnAnimating = false;
+    int intAnimationFrame = 0;
+    int intAniY = 0;
+    int intAniVeloY = 0;
+    int intAlign[] = new int[2];
 
     Font theFont12 = new Font("Dialog", 1, 12);
     Font theFont16 = new Font("Dialog", 1, 16);
+    Font theFont20 = new Font("Dialog", 1, 20);
     
     Color clrBackground = new Color(37, 37, 37);
     Color clrGrid = new Color(50, 50, 50);
@@ -62,7 +71,7 @@ public class panelgraphics extends JPanel{
         //Drawing the ARC
         getTrig();
         g.setColor(clrRed);
-        intScaleMultiplier = Math.min(intLengthX, intLengthY);
+        intScaleMultiplier = Math.min(Math.abs(intLengthX), Math.abs(intLengthY));
         if(intScaleMultiplier < 7){
             intScaleMultiplier = 7;
         }
@@ -109,10 +118,10 @@ public class panelgraphics extends JPanel{
             g.setColor(clrRed);
         }
         if(intLengthY > 0 && intLengthX != 0){
-            g.drawString(""+intLengthX, intX1 + (intLengthX * 20 / 2) - 3, intY2 + 15);
+            g.drawString(""+Math.abs(intLengthX), intX1 + (intLengthX * 20 / 2) - 3, intY2 + 15);
         }
         else if(intLengthY < 0 && intLengthX != 0){
-            g.drawString(""+intLengthX, intX1 + (intLengthX * 20 / 2) - 3, intY2 - 7);
+            g.drawString(""+Math.abs(intLengthX), intX1 + (intLengthX * 20 / 2) - 3, intY2 - 7);
         }
         if(intTrigSelected == 1 || intTrigSelected == 3){
             g.setColor(clrWhite);
@@ -122,19 +131,19 @@ public class panelgraphics extends JPanel{
             g.setColor(clrRed);
         }
         if(intLengthX > 0 && intLengthY > 9){
-            g.drawString(""+intLengthY, intX1 - 20, intY1 + (intLengthY * 20 / 2) + 5);
+            g.drawString(""+Math.abs(intLengthY), intX1 - 20, intY1 + (intLengthY * 20 / 2) + 5);
         }
         else if(intLengthX > 0 && intLengthY < -9){
-            g.drawString(""+intLengthY, intX1 - 25, intY1 + (intLengthY * 20 / 2) + 5);
+            g.drawString(""+Math.abs(intLengthY), intX1 - 25, intY1 + (intLengthY * 20 / 2) + 5);
         }
         else if(intLengthX > 0 && intLengthY < 0){
-            g.drawString(""+intLengthY, intX1 - 20, intY1 + (intLengthY * 20 / 2) + 5);
+            g.drawString(""+Math.abs(intLengthY), intX1 - 20, intY1 + (intLengthY * 20 / 2) + 5);
         } 
         else if(intLengthX > 0 && intLengthY != 0){
-            g.drawString(""+intLengthY, intX1 - 15, intY1 + (intLengthY * 20 / 2) + 5);
+            g.drawString(""+Math.abs(intLengthY), intX1 - 15, intY1 + (intLengthY * 20 / 2) + 5);
         }
         else if(intLengthX < 0 && intLengthY != 0){
-            g.drawString(""+intLengthY, intX1 + 10, intY1 + (intLengthY * 20 / 2) + 5);
+            g.drawString(""+Math.abs(intLengthY), intX1 + 10, intY1 + (intLengthY * 20 / 2) + 5);
         }
         if(intTrigSelected == 2 || intTrigSelected == 3){
             g.setColor(clrWhite);
@@ -200,6 +209,73 @@ public class panelgraphics extends JPanel{
             g.fillOval(intX1 - 5, intY2 - 5, 11, 11);
             g.setColor(clrWhite);
         }
+        
+        //Demonstration Animations
+        if(blnAnimating){
+            //Determines if it is the first animation frame
+            if(intAnimationFrame == 0){
+                intAniY = 250;
+                intAniVeloY = -10;
+            }
+            else if(intAniY <= 45){
+                intAniVeloY = intAniVeloY + 1;
+            }
+
+            if(intAniY > 0){
+                intAniY = intAniY + intAniVeloY;
+                intAnimationFrame++;
+            }
+            else{
+                intAniY = 0;
+                intAnimationFrame = 0;
+                blnAnimating = false;
+            }
+        }
+        if(blnShow){
+            g.setFont(theFont20);
+            
+            if(intTrigSelected == 1){
+                intAlign = CAlign(theFont20, "SINθ = OPP/HYP");
+                g.drawString("SINθ = OPP/HYP", 140 - intAlign[0]/2, 360 - intAlign[1]/2 + intAniY);
+                
+                intAlign = CAlign(theFont20, "SINθ = "+Math.abs(intLengthX)+"/"+Math.round(dblLengthHyp*10.0)/10.0);
+                g.drawString("SINθ = "+Math.abs(intLengthX)+"/"+Math.round(dblLengthHyp*10.0)/10.0, 140 - intAlign[0]/2, 410 - intAlign[1]/2 + intAniY);
+                
+                intAlign = CAlign(theFont20, "θ = sin⁻¹("+Math.abs(intLengthX)+"/"+Math.round(dblLengthHyp*10.0)/10.0+")");
+                g.drawString("θ = sin⁻¹("+Math.abs(intLengthX)+"/"+Math.round(dblLengthHyp*10.0)/10.0+")", 140 - intAlign[0]/2, 460 - intAlign[1]/2 + intAniY);
+                
+                intAlign = CAlign(theFont20, "θ = "+Math.abs(Math.round(dblAngle*10.0)/10.0));
+                g.drawString("θ = "+Math.abs(Math.round(dblAngle*10.0)/10.0), 140 - intAlign[0]/2, 510 - intAlign[1]/2 + intAniY);
+            }
+
+            if(intTrigSelected == 2){
+                intAlign = CAlign(theFont20, "COSθ = ADJ/HYP");
+                g.drawString("COSθ = ADJ/HYP", 140 - intAlign[0]/2, 360 - intAlign[1]/2 + intAniY);
+                
+                intAlign = CAlign(theFont20, "COSθ = "+Math.abs(intLengthY)+"/"+Math.round(dblLengthHyp*10.0)/10.0);
+                g.drawString("COSθ = "+Math.abs(intLengthY)+"/"+Math.round(dblLengthHyp*10.0)/10.0, 140 - intAlign[0]/2, 410 - intAlign[1]/2 + intAniY);
+                
+                intAlign = CAlign(theFont20, "θ = cos⁻¹("+Math.abs(intLengthY)+"/"+Math.round(dblLengthHyp*10.0)/10.0+")");
+                g.drawString("θ = cos⁻¹("+Math.abs(intLengthY)+"/"+Math.round(dblLengthHyp*10.0)/10.0+")", 140 - intAlign[0]/2, 460 - intAlign[1]/2 + intAniY);
+                
+                intAlign = CAlign(theFont20, "θ = "+Math.abs(Math.round(dblAngle*10.0)/10.0));
+                g.drawString("θ = "+Math.abs(Math.round(dblAngle*10.0)/10.0), 140 - intAlign[0]/2, 510 - intAlign[1]/2 + intAniY);
+            }
+            
+            if(intTrigSelected == 3){
+                intAlign = CAlign(theFont20, "TANθ = OPP/ADJ");
+                g.drawString("TANθ = OPP/ADJ", 140 - intAlign[0]/2, 360 - intAlign[1]/2 + intAniY);
+                
+                intAlign = CAlign(theFont20, "TANθ = "+Math.abs(intLengthX)+"/"+Math.abs(intLengthY));
+                g.drawString("TANθ = "+Math.abs(intLengthX)+"/"+Math.abs(intLengthY), 140 - intAlign[0]/2, 410 - intAlign[1]/2 + intAniY);
+                
+                intAlign = CAlign(theFont20, "θ = tan⁻¹("+Math.abs(intLengthX)+"/"+Math.abs(intLengthY)+")");
+                g.drawString("θ = tan⁻¹("+Math.abs(intLengthX)+"/"+Math.abs(intLengthY)+")", 140 - intAlign[0]/2, 460 - intAlign[1]/2 + intAniY);
+                
+                intAlign = CAlign(theFont20, "θ = "+Math.abs(Math.round(dblAngle*10.0)/10.0));
+                g.drawString("θ = "+Math.abs(Math.round(dblAngle*10.0)/10.0), 140 - intAlign[0]/2, 510 - intAlign[1]/2 + intAniY);
+            }
+        }
 
     }
 
@@ -209,6 +285,21 @@ public class panelgraphics extends JPanel{
         
     }
 
+    //Text Display Width Calculator
+	public int[] CAlign(Font fntin, String strtext){
+		//Font Alignment Variable (Coordinate Based)
+		int intCAlign[] = new int[2];
+		//Creates the variables needed for alignment
+		AffineTransform affinetransform = new AffineTransform();     
+		FontRenderContext frc = new FontRenderContext(affinetransform,true,true);     
+		int intX = (int)(fntin.getStringBounds(strtext, frc).getWidth());
+		int intY = (int)(fntin.getStringBounds(strtext, frc).getHeight());
+		intCAlign[0] = intX;
+		intCAlign[1] = intY;
+		return intCAlign;
+	}
+
+    //Retrieves the Trig Data
     private void getTrig(){
         dblLengthHyp = Math.sqrt(Math.pow(intLengthX, 2) + Math.pow(intLengthY, 2));
         dblAngle = Math.toDegrees(Math.asin(intLengthX/dblLengthHyp));

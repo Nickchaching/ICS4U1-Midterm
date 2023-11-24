@@ -11,6 +11,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
 
     JFrame theFrame = new JFrame("SOH CAH TOA Simulator");
     panelgraphics thePanel = new panelgraphics();
+    //testingpanel theTestPanel = new testingpanel(); (TESTING PANEL)
     helppanel theHelpPanel = new helppanel();
     aboutpanel theAboutPanel = new aboutpanel();
     Timer newFrame = new Timer(1000 / 48, this);
@@ -19,23 +20,16 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     JButton sinButton = new JButton("Sin");
     JButton cosButton = new JButton("Cos");
     JButton tanButton = new JButton("Tan");
-    JButton demoButton = new JButton("Show Demonstration");
-    // JButton modeA = new JButton("Mode 1");
-    // JButton modeB = new JButton("Mode 2");
-    // Text Fields
-    // JTextField aText = new JTextField();
-    // JTextField bText = new JTextField();
-    // Labels
+    JButton demoButton = new JButton("Show/Hide Demonstration");
     JLabel aLabel = new JLabel("Side A: ", JLabel.CENTER);
     JLabel bLabel = new JLabel("Side B: ", JLabel.CENTER);
-    JLabel cLabel = new JLabel("Angle A", JLabel.CENTER);
-    JLabel modeLabel = new JLabel("Selected mode: None", JLabel.CENTER);
     // Slider
     JSlider slideSideA = new JSlider(JSlider.HORIZONTAL, 0, 32, 10);
     JSlider slideSideB = new JSlider(JSlider.HORIZONTAL, 0, 25, 10);
-    JSlider slideAngle = new JSlider(JSlider.HORIZONTAL, 0, 34, 10);
     // Menu
     JMenuBar theBar = new JMenuBar();
+    JMenu homeMenu = new JMenu("Home");
+    JMenu quizMenu = new JMenu("Quiz");
     JMenu aboutMenu = new JMenu("About");
     JMenu helpMenu = new JMenu("Help");
 
@@ -51,24 +45,34 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
 
         //SIN/COS/TAN Highlight
         else if(evt.getSource() == sinButton){
+            if(thePanel.blnShow = true){
+                thePanel.blnShow = false;
+            }
             thePanel.intTrigSelected = 1;
         }
         else if(evt.getSource() == cosButton){
+            if(thePanel.blnShow = true){
+                thePanel.blnShow = false;
+            }
             thePanel.intTrigSelected = 2;
         }
         else if(evt.getSource() == tanButton){
+            if(thePanel.blnShow = true){
+                thePanel.blnShow = false;
+            }
             thePanel.intTrigSelected = 3;
         }
         else if(evt.getSource() == demoButton){
-
+            if(thePanel.blnShow){
+                thePanel.blnShow = false;
+                thePanel.blnAnimating = false;
+            }
+            else{
+                thePanel.blnShow = true;
+                thePanel.blnAnimating = true;
+            }
         }
-        // if (evt.getSource() == modeA) {
-        // bLabel.setText("Side B");
-        // System.out.println("mode a");
-        // }
-        // if (evt.getSource() == modeB) {
-        // bLabel.setText("Angle A");
-        // }
+        
     }
 
     //Updates the Selected Point Value
@@ -129,9 +133,8 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     }
 
     public void updateLabels(){
-        aLabel.setText("Side A: " + thePanel.intLengthX);
-        bLabel.setText("Side B: " + thePanel.intLengthY);
-        cLabel.setText("Angle A: " + thePanel.dblAngle);
+        aLabel.setText("Side A: " + Math.abs(thePanel.intLengthX));
+        bLabel.setText("Side B: " + Math.abs(thePanel.intLengthY));
     }
 
     public void mouseExited(MouseEvent evt){
@@ -151,21 +154,23 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     }
 
     public void menuSelected(MenuEvent evt){
-        if(evt.getSource() == helpMenu && intPanelSelected != 2){
-            theFrame.setVisible(false);
-            theFrame.setJMenuBar(null);
-            theFrame.setContentPane(theHelpPanel);
-            theFrame.setJMenuBar(theBar);
-            theFrame.pack();
-            theFrame.setVisible(true);
+        if(evt.getSource() == quizMenu && intPanelSelected != 2){
+                //FILL IN QUIZ PANEL HERE
         }
-        else if(evt.getSource() == aboutMenu){
-            theFrame.setVisible(false);
-            theFrame.setJMenuBar(null);
-            theFrame.setContentPane(theAboutPanel);
-            theFrame.setJMenuBar(theBar);
+        else if(evt.getSource() == helpMenu && intPanelSelected != 3){
+            theFrame.setContentPane(theHelpPanel);
             theFrame.pack();
-            theFrame.setVisible(true);
+            intPanelSelected = 3;
+        }
+        else if(evt.getSource() == aboutMenu && intPanelSelected != 4){
+            theFrame.setContentPane(theAboutPanel);
+            theFrame.pack();
+            intPanelSelected = 4;
+        }
+        else if(evt.getSource() == homeMenu && intPanelSelected != 1){
+            theFrame.setContentPane(thePanel);
+            theFrame.pack();
+            intPanelSelected = 1;
         }
     }
 
@@ -193,6 +198,8 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         theAboutPanel.setLayout(null);
 
         // Menu
+        theBar.add(homeMenu);
+        theBar.add(quizMenu);
         theBar.add(aboutMenu);
         theBar.add(helpMenu);
 
@@ -255,8 +262,11 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         sinButton.addActionListener(this);
         cosButton.addActionListener(this);
         tanButton.addActionListener(this);
+        demoButton.addActionListener(this);
         slideSideA.addChangeListener(this);
         slideSideB.addChangeListener(this);
+        homeMenu.addMenuListener(this);
+        quizMenu.addMenuListener(this);
         aboutMenu.addMenuListener(this);
         helpMenu.addMenuListener(this);
 
