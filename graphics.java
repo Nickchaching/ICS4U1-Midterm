@@ -89,8 +89,17 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
             }
         }
         
+        // Submit Button
         if(evt.getSource() == submitButton){
+            // Variables
+            int intScore = 0;;
             System.out.println("Submit");
+            // Name
+            String strName = "";
+            strName = nameField.getText();
+            System.out.println(strName);
+            // Question 1
+            
         }
 
     }
@@ -294,6 +303,8 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         quizMenu.addMenuListener(this);
         aboutMenu.addMenuListener(this);
         helpMenu.addMenuListener(this);
+        submitButton.addActionListener(this);
+
 
         //RESORT LATER
         testPanel.setLayout(null);
