@@ -11,7 +11,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
 
     JFrame theFrame = new JFrame("SOH CAH TOA Simulator");
     panelgraphics thePanel = new panelgraphics();
-    //testingpanel theTestPanel = new testingpanel(); (TESTING PANEL)
+    testingpanel theTestPanel = new testingpanel();
     helppanel theHelpPanel = new helppanel();
     aboutpanel theAboutPanel = new aboutpanel();
     Timer newFrame = new Timer(1000 / 48, this);
@@ -32,6 +32,22 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     JMenu quizMenu = new JMenu("Quiz");
     JMenu aboutMenu = new JMenu("About");
     JMenu helpMenu = new JMenu("Help");
+
+
+    //RESORT LATER
+    JPanel testPanel = new JPanel();
+    JScrollPane theScroll = new JScrollPane(testPanel);
+    // Enter Name
+	JLabel nameText = new JLabel("Enter your name:");
+	JTextField nameField = new JTextField();
+	// Question 1
+	JLabel question1Text = new JLabel("Which ratio uses the sides that are the opposite and hypotenuse to the specified angle?");
+	JRadioButton question1RadioA = new JRadioButton("Sin");
+	JRadioButton question1RadioB = new JRadioButton("Cos");
+	JRadioButton question1RadioC = new JRadioButton("Tan");
+	ButtonGroup group1 = new ButtonGroup();
+	// Submit Button
+    JButton submitButton = new JButton("Submit");
 
     // Methods
     public void actionPerformed(ActionEvent evt){
@@ -73,6 +89,10 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
             }
         }
         
+        if(evt.getSource() == submitButton){
+            System.out.println("Submit");
+        }
+
     }
 
     //Updates the Selected Point Value
@@ -155,7 +175,10 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
 
     public void menuSelected(MenuEvent evt){
         if(evt.getSource() == quizMenu && intPanelSelected != 2){
-                //FILL IN QUIZ PANEL HERE
+            theFrame.setContentPane(theScroll);
+            theFrame.pack();
+            intPanelSelected = 2;
+
         }
         else if(evt.getSource() == helpMenu && intPanelSelected != 3){
             theFrame.setContentPane(theHelpPanel);
@@ -192,6 +215,8 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         // Panel
         thePanel.setPreferredSize(new Dimension(960, 540));
         thePanel.setLayout(null);
+        theTestPanel.setPreferredSize(new Dimension(960, 540));
+        theTestPanel.setLayout(null);
         theHelpPanel.setPreferredSize(new Dimension(960, 540));
         theHelpPanel.setLayout(null);
         theAboutPanel.setPreferredSize(new Dimension(960, 540));
@@ -269,6 +294,45 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         quizMenu.addMenuListener(this);
         aboutMenu.addMenuListener(this);
         helpMenu.addMenuListener(this);
+
+        //RESORT LATER
+        testPanel.setLayout(null);
+		testPanel.setPreferredSize(new Dimension(960, 1000));
+		theScroll.setPreferredSize(new Dimension(960, 540));
+		
+		// Name
+		nameText.setSize(900, 30);
+		nameText.setLocation(20, 60);
+		testPanel.add(nameText);
+		nameField.setSize(900,30);
+		nameField.setLocation(20, 120);		
+		testPanel.add(nameField);
+		
+		// Question 1
+		question1Text.setSize(900, 30);
+		question1Text.setLocation(20, 180);
+		testPanel.add(question1Text);
+		// Question 1 Answers
+		question1RadioA.setSize(900, 30);
+		question1RadioB.setSize(900, 30);
+		question1RadioC.setSize(900, 30);
+		question1RadioA.setLocation(20, 210);
+		question1RadioB.setLocation(20, 240);
+		question1RadioC.setLocation(20, 270);
+		testPanel.add(question1RadioA);
+		testPanel.add(question1RadioB);
+		testPanel.add(question1RadioC);
+		group1.add(question1RadioA);
+		group1.add(question1RadioB);
+		group1.add(question1RadioC);
+		// Question 2
+		// Question 2 Answers
+
+        // Submit Button
+        submitButton.setSize(100, 30);
+        submitButton.setLocation(20,330);
+        testPanel.add(submitButton);
+
 
         //Packing Frame
         theFrame.setJMenuBar(theBar);
