@@ -3,6 +3,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import javax.swing.event.*;
+import java.io.*;
 
 public class graphics implements ActionListener, MouseMotionListener, MouseListener, ChangeListener, MenuListener{
     // Properties
@@ -14,6 +15,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     testingpanel theTestPanel = new testingpanel();
     helppanel theHelpPanel = new helppanel();
     aboutpanel theAboutPanel = new aboutpanel();
+    scorepanel theScorePanel = new scorepanel();
     Timer newFrame = new Timer(1000 / 48, this);
 
     // Button
@@ -30,6 +32,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     JMenuBar theBar = new JMenuBar();
     JMenu homeMenu = new JMenu("Home");
     JMenu quizMenu = new JMenu("Quiz");
+    JMenu scoreMenu = new JMenu("Scores");
     JMenu aboutMenu = new JMenu("About");
     JMenu helpMenu = new JMenu("Help");
 
@@ -126,7 +129,8 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         // Submit Button
         if(evt.getSource() == submitButton){
             
-            // Features to add
+            // Features to add/fix
+            //  - correct/incorrect labels lag??
             //  - show which specific choices are wrong
             //  - add option to retake test
             //  - display final score at the bottom
@@ -220,8 +224,16 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
                 incorrectLabel5.setLocation(600,780);
                 testPanel.add(incorrectLabel5);
             }
-            // Print Final Score
+            // Print Final Score to Data File
             System.out.println(intScore);
+            try{
+                PrintWriter scoreFile = new PrintWriter(new FileWriter("score.txt", true));
+                scoreFile.println(strName);
+                scoreFile.println(intScore);
+                scoreFile.close();
+            }catch(IOException e){
+                System.out.println("Unable to open file");
+            }
         }
 
     }
@@ -325,6 +337,10 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
             theFrame.setContentPane(thePanel);
             theFrame.pack();
             intPanelSelected = 1;
+        }else if(evt.getSource() == scoreMenu && intPanelSelected != 5){
+            theFrame.setContentPane(theScorePanel);
+            theFrame.pack();
+            intPanelSelected = 5;
         }
     }
 
@@ -348,6 +364,8 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         thePanel.setLayout(null);
         theTestPanel.setPreferredSize(new Dimension(960, 540));
         theTestPanel.setLayout(null);
+        theScorePanel.setPreferredSize(new Dimension(960, 540));
+        theScorePanel.setLayout(null);
         theHelpPanel.setPreferredSize(new Dimension(960, 540));
         theHelpPanel.setLayout(null);
         theAboutPanel.setPreferredSize(new Dimension(960, 540));
@@ -356,6 +374,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         // Menu
         theBar.add(homeMenu);
         theBar.add(quizMenu);
+        theBar.add(scoreMenu);
         theBar.add(aboutMenu);
         theBar.add(helpMenu);
 
@@ -423,6 +442,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         slideSideB.addChangeListener(this);
         homeMenu.addMenuListener(this);
         quizMenu.addMenuListener(this);
+        scoreMenu.addMenuListener(this);
         aboutMenu.addMenuListener(this);
         helpMenu.addMenuListener(this);
         submitButton.addActionListener(this);
