@@ -93,7 +93,18 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
             if(intPanelSelected == 1){
                 thePanel.repaint();
             }
-            newFrame.start();
+            else if(intPanelSelected == 2){
+                testPanel.repaint();
+            }
+            else if(intPanelSelected == 3){
+                helpMenu.repaint();
+            }
+            else if(intPanelSelected == 4){
+                aboutMenu.repaint();
+            }
+            else if(intPanelSelected == 5){
+                quizMenu.repaint();
+            }
         }
 
         //SIN/COS/TAN Highlight
@@ -234,6 +245,8 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
             }catch(IOException e){
                 System.out.println("Unable to open file");
             }
+
+            
         }
 
     }
@@ -321,7 +334,6 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
             theFrame.setContentPane(theScroll);
             theFrame.pack();
             intPanelSelected = 2;
-
         }
         else if(evt.getSource() == helpMenu && intPanelSelected != 3){
             theFrame.setContentPane(theHelpPanel);
@@ -333,14 +345,15 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
             theFrame.pack();
             intPanelSelected = 4;
         }
+        else if(evt.getSource() == scoreMenu && intPanelSelected != 5){
+            theFrame.setContentPane(theScorePanel);
+            theFrame.pack();
+            intPanelSelected = 5;
+        }
         else if(evt.getSource() == homeMenu && intPanelSelected != 1){
             theFrame.setContentPane(thePanel);
             theFrame.pack();
             intPanelSelected = 1;
-        }else if(evt.getSource() == scoreMenu && intPanelSelected != 5){
-            theFrame.setContentPane(theScorePanel);
-            theFrame.pack();
-            intPanelSelected = 5;
         }
     }
 
