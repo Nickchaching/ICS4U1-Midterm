@@ -13,6 +13,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     JFrame theFrame = new JFrame("SOH CAH TOA Simulator");
     panelgraphics thePanel = new panelgraphics();
     testingpanel theTestPanel = new testingpanel();
+    JScrollPane theScroll = new JScrollPane(theTestPanel);
     helppanel theHelpPanel = new helppanel();
     aboutpanel theAboutPanel = new aboutpanel();
     scorepanel theScorePanel = new scorepanel();
@@ -37,9 +38,6 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     JMenu helpMenu = new JMenu("Help");
 
 
-    // Quiz
-    JPanel testPanel = new JPanel();
-    JScrollPane theScroll = new JScrollPane(testPanel);
     // Enter Name
 	JLabel nameText = new JLabel("Enter your name:");
 	JTextField nameField = new JTextField();
@@ -94,7 +92,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
                 thePanel.repaint();
             }
             else if(intPanelSelected == 2){
-                testPanel.repaint();
+                theTestPanel.repaint();
             }
             else if(intPanelSelected == 3){
                 helpMenu.repaint();
@@ -162,14 +160,14 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
                 correctLabel1.setForeground(Color.green);
                 correctLabel1.setSize(200,30);
                 correctLabel1.setLocation(600,180);
-                testPanel.add(correctLabel1);
+                theTestPanel.add(correctLabel1);
             }
             else if(question1RadioB.isSelected() == true || question1RadioC.isSelected() == true){
                 incorrectLabel1.setBackground(thePanel.clrBackground);
                 incorrectLabel1.setForeground(Color.red);
                 incorrectLabel1.setSize(200,30);
                 incorrectLabel1.setLocation(600,180);
-                testPanel.add(incorrectLabel1);
+                theTestPanel.add(incorrectLabel1);
             }
             // Question 2
             if(question2RadioC.isSelected() == true){
@@ -178,14 +176,14 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
                 correctLabel2.setForeground(Color.green);
                 correctLabel2.setSize(200,30);
                 correctLabel2.setLocation(600,330);
-                testPanel.add(correctLabel2);
+                theTestPanel.add(correctLabel2);
             }
             else if(question2RadioA.isSelected() == true || question2RadioB.isSelected() == true){
                 incorrectLabel2.setBackground(thePanel.clrBackground);
                 incorrectLabel2.setForeground(Color.red);
                 incorrectLabel2.setSize(200,30);
                 incorrectLabel2.setLocation(600,330);
-                testPanel.add(incorrectLabel2);
+                theTestPanel.add(incorrectLabel2);
             }
             // Question 3
             if(question3RadioC.isSelected() == true){
@@ -194,14 +192,14 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
                 correctLabel3.setForeground(Color.green);
                 correctLabel3.setSize(200,30);
                 correctLabel3.setLocation(600,480);
-                testPanel.add(correctLabel3);
+                theTestPanel.add(correctLabel3);
             }
             else if(question3RadioA.isSelected() == true || question3RadioB.isSelected() == true){
                 incorrectLabel3.setBackground(thePanel.clrBackground);
                 incorrectLabel3.setForeground(Color.red);
                 incorrectLabel3.setSize(200,30);
                 incorrectLabel3.setLocation(600,480);
-                testPanel.add(incorrectLabel3);
+                theTestPanel.add(incorrectLabel3);
             }
             // Question 4
             if(question4RadioA.isSelected() == true){
@@ -210,14 +208,14 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
                 correctLabel4.setForeground(Color.green);
                 correctLabel4.setSize(200,30);
                 correctLabel4.setLocation(600,630);
-                testPanel.add(correctLabel4);
+                theTestPanel.add(correctLabel4);
             }
             else if(question4RadioB.isSelected() == true || question4RadioC.isSelected() == true){
                 incorrectLabel4.setBackground(thePanel.clrBackground);
                 incorrectLabel4.setForeground(Color.red);
                 incorrectLabel4.setSize(200,30);
                 incorrectLabel4.setLocation(600,630);
-                testPanel.add(incorrectLabel4);
+                theTestPanel.add(incorrectLabel4);
             }
             // Question 5
             if(question5RadioB.isSelected() == true){
@@ -226,14 +224,14 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
                 correctLabel5.setForeground(Color.green);
                 correctLabel5.setSize(200,30);
                 correctLabel5.setLocation(600,780);
-                testPanel.add(correctLabel5);
+                theTestPanel.add(correctLabel5);
             }
             else if(question5RadioA.isSelected() == true || question5RadioC.isSelected() == true){
                 incorrectLabel5.setBackground(thePanel.clrBackground);
                 incorrectLabel5.setForeground(Color.red);
                 incorrectLabel5.setSize(200,30);
                 incorrectLabel5.setLocation(600,780);
-                testPanel.add(incorrectLabel5);
+                theTestPanel.add(incorrectLabel5);
             }
             // Print Final Score to Data File
             System.out.println(intScore);
@@ -347,6 +345,8 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         }
         else if(evt.getSource() == scoreMenu && intPanelSelected != 5){
             theFrame.setContentPane(theScorePanel);
+            //loadArray();
+            //buildPanel(); (PUT EVERYTHING YOU WOULD HAVE PUT IN THE CONSTRUCTOR IN THIS METHOD)
             theFrame.pack();
             intPanelSelected = 5;
         }
@@ -356,6 +356,8 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
             intPanelSelected = 1;
         }
     }
+
+    
 
     public void menuDeselected(MenuEvent evt){
         if(evt.getSource() == helpMenu){
@@ -375,8 +377,9 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         // Panel
         thePanel.setPreferredSize(new Dimension(960, 540));
         thePanel.setLayout(null);
-        theTestPanel.setPreferredSize(new Dimension(960, 540));
+        theTestPanel.setPreferredSize(new Dimension(960, 1500));
         theTestPanel.setLayout(null);
+		theScroll.setPreferredSize(new Dimension(960, 540));
         theScorePanel.setPreferredSize(new Dimension(960, 540));
         theScorePanel.setLayout(null);
         theHelpPanel.setPreferredSize(new Dimension(960, 540));
@@ -461,24 +464,19 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         submitButton.addActionListener(this);
 
 
-        // Testing Module (Quiz)
-        testPanel.setLayout(null);
-		testPanel.setPreferredSize(new Dimension(960, 1500));
-		theScroll.setPreferredSize(new Dimension(960, 540));
-        testPanel.setBackground(thePanel.clrBackground);
 		// Name
 		nameText.setSize(900, 30);
 		nameText.setLocation(20, 90);
         nameText.setForeground(Color.white);
-		testPanel.add(nameText);
+		theTestPanel.add(nameText);
 		nameField.setSize(900,30);
 		nameField.setLocation(20, 120);		
-		testPanel.add(nameField);
+		theTestPanel.add(nameField);
 		// Question 1
 		question1Text.setSize(900, 30);
 		question1Text.setLocation(20, 180);
         question1Text.setForeground(Color.white);
-		testPanel.add(question1Text);
+		theTestPanel.add(question1Text);
 		// Question 1 Answers
 		question1RadioA.setSize(900, 30);
 		question1RadioB.setSize(900, 30);
@@ -492,9 +490,9 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         question1RadioA.setBackground(thePanel.clrBackground);
         question1RadioB.setBackground(thePanel.clrBackground);
         question1RadioC.setBackground(thePanel.clrBackground);
-		testPanel.add(question1RadioA);
-		testPanel.add(question1RadioB);
-		testPanel.add(question1RadioC);
+		theTestPanel.add(question1RadioA);
+		theTestPanel.add(question1RadioB);
+		theTestPanel.add(question1RadioC);
 		group1.add(question1RadioA);
 		group1.add(question1RadioB);
 		group1.add(question1RadioC);
@@ -502,7 +500,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         question2Text.setSize(900, 30);
 		question2Text.setLocation(20, 330);
         question2Text.setForeground(Color.white);
-		testPanel.add(question2Text);
+		theTestPanel.add(question2Text);
 		// Question 2 Answers
         question2RadioA.setSize(900, 30);
 		question2RadioB.setSize(900, 30);
@@ -516,9 +514,9 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         question2RadioA.setBackground(thePanel.clrBackground);
         question2RadioB.setBackground(thePanel.clrBackground);
         question2RadioC.setBackground(thePanel.clrBackground);
-		testPanel.add(question2RadioA);
-		testPanel.add(question2RadioB);
-		testPanel.add(question2RadioC);
+		theTestPanel.add(question2RadioA);
+		theTestPanel.add(question2RadioB);
+		theTestPanel.add(question2RadioC);
 		group2.add(question2RadioA);
 		group2.add(question2RadioB);
 		group2.add(question2RadioC);
@@ -526,7 +524,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         question3Text.setSize(900, 30);
 		question3Text.setLocation(20, 480);
         question3Text.setForeground(Color.white);
-		testPanel.add(question3Text);
+		theTestPanel.add(question3Text);
 		// Question 3 Answers
         question3RadioA.setSize(900, 30);
 		question3RadioB.setSize(900, 30);
@@ -540,9 +538,9 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         question3RadioA.setBackground(thePanel.clrBackground);
         question3RadioB.setBackground(thePanel.clrBackground);
         question3RadioC.setBackground(thePanel.clrBackground);
-		testPanel.add(question3RadioA);
-		testPanel.add(question3RadioB);
-		testPanel.add(question3RadioC);
+		theTestPanel.add(question3RadioA);
+		theTestPanel.add(question3RadioB);
+		theTestPanel.add(question3RadioC);
 		group3.add(question3RadioA);
 		group3.add(question3RadioB);
 		group3.add(question3RadioC);
@@ -550,7 +548,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         question4Text.setSize(900, 30);
 		question4Text.setLocation(20, 630);
         question4Text.setForeground(Color.white);
-		testPanel.add(question4Text);
+		theTestPanel.add(question4Text);
 		// Question 4 Answers
         question4RadioA.setSize(900, 30);
 		question4RadioB.setSize(900, 30);
@@ -564,9 +562,9 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         question4RadioA.setBackground(thePanel.clrBackground);
         question4RadioB.setBackground(thePanel.clrBackground);
         question4RadioC.setBackground(thePanel.clrBackground);
-		testPanel.add(question4RadioA);
-		testPanel.add(question4RadioB);
-		testPanel.add(question4RadioC);
+		theTestPanel.add(question4RadioA);
+		theTestPanel.add(question4RadioB);
+		theTestPanel.add(question4RadioC);
 		group4.add(question4RadioA);
 		group4.add(question4RadioB);
 		group4.add(question4RadioC);
@@ -574,7 +572,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         question5Text.setSize(900, 30);
 		question5Text.setLocation(20, 780);
         question5Text.setForeground(Color.white);
-		testPanel.add(question5Text);
+		theTestPanel.add(question5Text);
 		// Question 5 Answers
         question5RadioA.setSize(900, 30);
 		question5RadioB.setSize(900, 30);
@@ -588,16 +586,16 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         question5RadioA.setBackground(thePanel.clrBackground);
         question5RadioB.setBackground(thePanel.clrBackground);
         question5RadioC.setBackground(thePanel.clrBackground);
-		testPanel.add(question5RadioA);
-		testPanel.add(question5RadioB);
-		testPanel.add(question5RadioC);
+		theTestPanel.add(question5RadioA);
+		theTestPanel.add(question5RadioB);
+		theTestPanel.add(question5RadioC);
 		group5.add(question5RadioA);
 		group5.add(question5RadioB);
 		group5.add(question5RadioC);
         // Submit Button
         submitButton.setSize(100, 30);
         submitButton.setLocation(20,930);
-        testPanel.add(submitButton);
+        theTestPanel.add(submitButton);
 
 
         //Packing Frame
