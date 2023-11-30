@@ -83,6 +83,8 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     JLabel incorrectLabel3 = new JLabel("Incorrect!");
     JLabel incorrectLabel4 = new JLabel("Incorrect!");
     JLabel incorrectLabel5 = new JLabel("Incorrect!");
+    // Scores
+    String strScores[][];
 
     // Methods
     public void actionPerformed(ActionEvent evt){
@@ -357,7 +359,34 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         }
     }
 
-    
+    public void loadArray(String strScores[][]){
+        try{
+            // File Input
+            BufferedReader countFile = new BufferedReader(new FileReader("score.txt"));
+            // Count Score Entries
+            int intLines = 0;
+            String strLine = "";
+            while(countFile != null){
+                strLine = countFile.readLine();
+                intLines++;
+            }
+            countFile.close();
+            // Array
+            BufferedReader scoreFile = new BufferedReader(new FileReader("score.txt"));
+            strScores = new String[intLines][2];
+            int intCount;
+            for(intCount = 0; intCount < intLines; intCount++){
+                strScores[intCount][0] = scoreFile.readLine();
+                strScores[intCount][1] = scoreFile.readLine();
+            }
+            countFile.close();
+        }catch(FileNotFoundException e){
+            System.out.println("Error");
+        }catch(IOException e){
+            System.out.println("Error");
+        }
+
+    }
 
     public void menuDeselected(MenuEvent evt){
         if(evt.getSource() == helpMenu){
