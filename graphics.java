@@ -8,6 +8,7 @@ import java.io.*;
 public class graphics implements ActionListener, MouseMotionListener, MouseListener, ChangeListener, MenuListener{
     // Properties
     Font theFont15 = new Font("Dialog", 1, 15);
+    Font theFont30 = new Font("Dialog", 1, 30);
     int intPanelSelected = 1;
 
     JFrame theFrame = new JFrame("SOH CAH TOA Simulator");
@@ -85,6 +86,9 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     JLabel incorrectLabel5 = new JLabel("Incorrect!");
     // Scores
     String strScores[][];
+    JLabel scoreTitleLabel = new JLabel("High Scores", JLabel.CENTER);
+    JLabel scoreNamesLabel = new JLabel("");
+    JLabel scoreNumbersLabel = new JLabel("");
 
     // Methods
     public void actionPerformed(ActionEvent evt){
@@ -347,8 +351,10 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         }
         else if(evt.getSource() == scoreMenu && intPanelSelected != 5){
             theFrame.setContentPane(theScorePanel);
-            //loadArray();
-            //buildPanel(); (PUT EVERYTHING YOU WOULD HAVE PUT IN THE CONSTRUCTOR IN THIS METHOD)
+            int intEntries = countEntries();
+            strScores = loadArray(intEntries);
+            strScores = sortScores(strScores, intEntries);
+            displayScores(intEntries); 
             theFrame.pack();
             intPanelSelected = 5;
         }
@@ -359,34 +365,136 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         }
     }
 
-    public void loadArray(String strScores[][]){
+    public int countEntries(){
+        System.out.println("countEntries");
         try{
             // File Input
             BufferedReader countFile = new BufferedReader(new FileReader("score.txt"));
             // Count Score Entries
             int intLines = 0;
             String strLine = "";
-            while(countFile != null){
+            while(strLine != null){
                 strLine = countFile.readLine();
                 intLines++;
             }
             countFile.close();
-            // Array
-            BufferedReader scoreFile = new BufferedReader(new FileReader("score.txt"));
-            strScores = new String[intLines][2];
-            int intCount;
-            for(intCount = 0; intCount < intLines; intCount++){
-                strScores[intCount][0] = scoreFile.readLine();
-                strScores[intCount][1] = scoreFile.readLine();
-            }
-            countFile.close();
+            return intLines/2;
         }catch(FileNotFoundException e){
             System.out.println("Error");
         }catch(IOException e){
             System.out.println("Error");
         }
-
+        return 0;
     }
+
+    public String[][] loadArray(int intEntries){
+        System.out.println("loadArray");
+        try{
+            // Array
+            BufferedReader scoreFile = new BufferedReader(new FileReader("score.txt"));
+            String strLoad[][] = new String[intEntries][2];
+            int intCount;
+            for(intCount = 0; intCount < intEntries; intCount++){
+                strLoad[intCount][0] = scoreFile.readLine();
+                strLoad[intCount][1] = scoreFile.readLine();
+                System.out.println(strLoad[intCount][0]);
+                System.out.println(strLoad[intCount][1]);
+            }
+            scoreFile.close();
+            return strLoad;
+        }catch(FileNotFoundException e){
+            System.out.println("FileNotFoundException");
+            return null;
+        }catch(IOException e){
+            System.out.println("IOException");
+            return null;
+        }
+    }
+
+    public String[][] sortScores(String strScores[][], int intEntries){
+        System.out.println("sortScores");
+        int intBelow;
+        int intCurrent;
+        int intCounter;
+        int intCounter2;
+        String strTemp = "";
+        int intCount;
+        for(intCounter2 = 0; intCounter2 < intEntries - 1; intCounter2++){
+            for(intCounter = 0; intCounter < intEntries - intCounter2 - 1; intCounter++){
+                try{
+                    // Compare Score Values
+                    intBelow = Integer.parseInt(strScores[intCounter + 1][1]);
+                    intCurrent = Integer.parseInt(strScores[intCounter][1]);
+                    System.out.println("intBelow: "+intBelow);
+                    System.out.println("intCurrent: "+intCurrent);
+                    System.out.println("Not Swapped: "+strTemp);
+                    System.out.println("Not Swapped: "+strScores[intCounter + 1][1]);
+                    System.out.println("Not Swapped: "+strScores[intCounter][1]);
+                    if(intBelow > intCurrent){
+                        // Swap Scores
+                        strTemp = strScores[intCounter + 1][1];
+                        System.out.println("Swapped: "+strTemp);
+                        strScores[intCounter + 1][1] = strScores[intCounter][1];
+                        System.out.println("Swapped: "+strScores[intCounter + 1][1]);
+                        strScores[intCounter][1] = strTemp;
+                        System.out.println("Swapped: "+strScores[intCounter][1]);
+                        // Swap Names
+                        strTemp = strScores[intCounter + 1][1];
+                        strScores[intCounter + 1][1] = strScores[intCounter][1];
+                        strScores[intCounter][1] = strTemp;
+                    }
+                }catch(NumberFormatException e){
+                    System.out.println("NumberFormatException");
+                }
+            }
+        }
+        System.out.println("Sorted Scores:");
+        for(intCount = 0; intCount < intEntries; intCount++){
+                System.out.println(strScores[intCount][0] + ": " + strScores[intCount][1]);
+            }
+        return strScores;
+    }
+
+    
+    
+
+    public void displayScores(int intEntries){
+        int intCount;
+        String strNames = "";
+        String strNumbers = "";
+        // Label for Title
+        scoreTitleLabel.setSize(920, 60);
+        scoreTitleLabel.setLocation(20,0);
+        scoreTitleLabel.setFont(theFont30);
+        scoreTitleLabel.setForeground(thePanel.clrWhite);
+        theScorePanel.add(scoreTitleLabel);
+        // Format Label for Scores: Names of Users
+        scoreNamesLabel.setSize(880, 460);
+        scoreNamesLabel.setLocation(20, 60);
+        scoreNamesLabel.setVerticalAlignment(SwingConstants.TOP);
+        scoreNamesLabel.setForeground(thePanel.clrWhite);
+        theScorePanel.add(scoreNamesLabel);
+        // Format Label for Scores: Quiz Mark Number
+        scoreNumbersLabel.setSize(880, 460);
+        scoreNumbersLabel.setLocation(900, 60);
+        scoreNumbersLabel.setVerticalAlignment(SwingConstants.TOP);
+        scoreNumbersLabel.setForeground(thePanel.clrWhite);
+        theScorePanel.add(scoreNumbersLabel);
+        // Score Data: Names into Label
+        for(intCount = 0; intCount < intEntries; intCount++){
+            strNames = strNames + strScores[intCount][0] + "<br>";
+        }
+        strNames = "<html>" + strNames + "</html>";
+        scoreNamesLabel.setText(strNames);
+        // Score Data: Numbers into Label
+         for(intCount = 0; intCount < intEntries; intCount++){
+            strNumbers = strNumbers + strScores[intCount][1] + "<br>";
+        }
+        strNumbers = "<html>" + strNumbers + "</html>";
+        scoreNumbersLabel.setText(strNumbers);
+    }
+
+   
 
     public void menuDeselected(MenuEvent evt){
         if(evt.getSource() == helpMenu){
