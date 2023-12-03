@@ -14,10 +14,11 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     JFrame theFrame = new JFrame("SOH CAH TOA Simulator");
     panelgraphics thePanel = new panelgraphics();
     testingpanel theTestPanel = new testingpanel();
-    JScrollPane theScroll = new JScrollPane(theTestPanel);
+    JScrollPane theTestScroll = new JScrollPane(theTestPanel);
     helppanel theHelpPanel = new helppanel();
     aboutpanel theAboutPanel = new aboutpanel();
     scorepanel theScorePanel = new scorepanel();
+    JScrollPane theScoreScroll = new JScrollPane(theScorePanel);
     Timer newFrame = new Timer(1000 / 48, this);
 
     // Button
@@ -89,6 +90,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     JLabel scoreTitleLabel = new JLabel("High Scores", JLabel.CENTER);
     JLabel scoreNamesLabel = new JLabel("");
     JLabel scoreNumbersLabel = new JLabel("");
+    JLabel scoreExtraLabel = new JLabel("Extra");
 
     // Methods
     public void actionPerformed(ActionEvent evt){
@@ -108,6 +110,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
             }
             else if(intPanelSelected == 5){
                 quizMenu.repaint();
+                theScorePanel.repaint();
             }
         }
 
@@ -143,14 +146,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         
         // Submit Button
         if(evt.getSource() == submitButton){
-            
-            // Features to add/fix
-            //  - correct/incorrect labels lag??
-            //  - show which specific choices are wrong
-            //  - add option to retake test
-            //  - display final score at the bottom
-            //  - print to file
-            
+ 
             // Variables
             int intScore = 0;;
             String strName = "";
@@ -335,7 +331,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
 
     public void menuSelected(MenuEvent evt){
         if(evt.getSource() == quizMenu && intPanelSelected != 2){
-            theFrame.setContentPane(theScroll);
+            theFrame.setContentPane(theTestScroll);
             theFrame.pack();
             intPanelSelected = 2;
         }
@@ -350,7 +346,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
             intPanelSelected = 4;
         }
         else if(evt.getSource() == scoreMenu && intPanelSelected != 5){
-            theFrame.setContentPane(theScorePanel);
+            theFrame.setContentPane(theScoreScroll);
             int intEntries = countEntries();
             strScores = loadArray(intEntries);
             strScores = sortScores(strScores, intEntries);
@@ -378,6 +374,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
                 intLines++;
             }
             countFile.close();
+            System.out.println("Number of Entries: "+intLines/2);
             return intLines/2;
         }catch(FileNotFoundException e){
             System.out.println("Error");
@@ -425,23 +422,15 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
                     // Compare Score Values
                     intBelow = Integer.parseInt(strScores[intCounter + 1][1]);
                     intCurrent = Integer.parseInt(strScores[intCounter][1]);
-                    System.out.println("intBelow: "+intBelow);
-                    System.out.println("intCurrent: "+intCurrent);
-                    System.out.println("Not Swapped: "+strTemp);
-                    System.out.println("Not Swapped: "+strScores[intCounter + 1][1]);
-                    System.out.println("Not Swapped: "+strScores[intCounter][1]);
                     if(intBelow > intCurrent){
                         // Swap Scores
                         strTemp = strScores[intCounter + 1][1];
-                        System.out.println("Swapped: "+strTemp);
                         strScores[intCounter + 1][1] = strScores[intCounter][1];
-                        System.out.println("Swapped: "+strScores[intCounter + 1][1]);
                         strScores[intCounter][1] = strTemp;
-                        System.out.println("Swapped: "+strScores[intCounter][1]);
                         // Swap Names
-                        strTemp = strScores[intCounter + 1][1];
-                        strScores[intCounter + 1][1] = strScores[intCounter][1];
-                        strScores[intCounter][1] = strTemp;
+                        strTemp = strScores[intCounter + 1][0];
+                        strScores[intCounter + 1][0] = strScores[intCounter][0];
+                        strScores[intCounter][0] = strTemp;
                     }
                 }catch(NumberFormatException e){
                     System.out.println("NumberFormatException");
@@ -460,6 +449,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
 
     public void displayScores(int intEntries){
         int intCount;
+        int intDisplayEntries = countEntries();
         String strNames = "";
         String strNumbers = "";
         // Label for Title
@@ -469,17 +459,23 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         scoreTitleLabel.setForeground(thePanel.clrWhite);
         theScorePanel.add(scoreTitleLabel);
         // Format Label for Scores: Names of Users
-        scoreNamesLabel.setSize(880, 460);
+        scoreNamesLabel.setSize(880, intDisplayEntries * 15);
         scoreNamesLabel.setLocation(20, 60);
         scoreNamesLabel.setVerticalAlignment(SwingConstants.TOP);
         scoreNamesLabel.setForeground(thePanel.clrWhite);
         theScorePanel.add(scoreNamesLabel);
         // Format Label for Scores: Quiz Mark Number
-        scoreNumbersLabel.setSize(880, 460);
+        scoreNumbersLabel.setSize(60, intDisplayEntries * 15);
         scoreNumbersLabel.setLocation(900, 60);
         scoreNumbersLabel.setVerticalAlignment(SwingConstants.TOP);
         scoreNumbersLabel.setForeground(thePanel.clrWhite);
         theScorePanel.add(scoreNumbersLabel);
+        // Testing Label
+        scoreExtraLabel.setSize(880, 30);
+        scoreExtraLabel.setLocation(0, 800);
+        scoreExtraLabel.setVerticalAlignment(SwingConstants.TOP);
+        scoreExtraLabel.setForeground(thePanel.clrWhite);
+        theScorePanel.add(scoreExtraLabel);
         // Score Data: Names into Label
         for(intCount = 0; intCount < intEntries; intCount++){
             strNames = strNames + strScores[intCount][0] + "<br>";
@@ -509,16 +505,18 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         
     }
 
-    // Constructor
     public graphics(){
+        // Calculate Size of Score Panel
+        int intEntries = countEntries();
         // Panel
         thePanel.setPreferredSize(new Dimension(960, 540));
         thePanel.setLayout(null);
         theTestPanel.setPreferredSize(new Dimension(960, 1500));
         theTestPanel.setLayout(null);
-		theScroll.setPreferredSize(new Dimension(960, 540));
-        theScorePanel.setPreferredSize(new Dimension(960, 540));
+		theTestScroll.setPreferredSize(new Dimension(960, 540));
+        theScorePanel.setPreferredSize(new Dimension(960, 15*intEntries));
         theScorePanel.setLayout(null);
+        theScoreScroll.setPreferredSize(new Dimension(960,540));
         theHelpPanel.setPreferredSize(new Dimension(960, 540));
         theHelpPanel.setLayout(null);
         theAboutPanel.setPreferredSize(new Dimension(960, 540));
@@ -602,7 +600,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
 
 
 		// Name
-		nameText.setSize(900, 30);
+		nameText.setSize(800, 30);
 		nameText.setLocation(20, 90);
         nameText.setForeground(Color.white);
 		theTestPanel.add(nameText);
@@ -610,14 +608,14 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
 		nameField.setLocation(20, 120);		
 		theTestPanel.add(nameField);
 		// Question 1
-		question1Text.setSize(900, 30);
+		question1Text.setSize(800, 30);
 		question1Text.setLocation(20, 180);
         question1Text.setForeground(Color.white);
 		theTestPanel.add(question1Text);
 		// Question 1 Answers
-		question1RadioA.setSize(900, 30);
-		question1RadioB.setSize(900, 30);
-		question1RadioC.setSize(900, 30);
+		question1RadioA.setSize(800, 30);
+		question1RadioB.setSize(800, 30);
+		question1RadioC.setSize(800, 30);
 		question1RadioA.setLocation(20, 210);
 		question1RadioB.setLocation(20, 240);
 		question1RadioC.setLocation(20, 270);
@@ -634,14 +632,14 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
 		group1.add(question1RadioB);
 		group1.add(question1RadioC);
 		// Question 2
-        question2Text.setSize(900, 30);
+        question2Text.setSize(800, 30);
 		question2Text.setLocation(20, 330);
         question2Text.setForeground(Color.white);
 		theTestPanel.add(question2Text);
 		// Question 2 Answers
-        question2RadioA.setSize(900, 30);
-		question2RadioB.setSize(900, 30);
-		question2RadioC.setSize(900, 30);
+        question2RadioA.setSize(800, 30);
+		question2RadioB.setSize(800, 30);
+		question2RadioC.setSize(800, 30);
 		question2RadioA.setLocation(20, 360);
 		question2RadioB.setLocation(20, 390);
 		question2RadioC.setLocation(20, 420);
@@ -663,9 +661,9 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         question3Text.setForeground(Color.white);
 		theTestPanel.add(question3Text);
 		// Question 3 Answers
-        question3RadioA.setSize(900, 30);
-		question3RadioB.setSize(900, 30);
-		question3RadioC.setSize(900, 30);
+        question3RadioA.setSize(800, 30);
+		question3RadioB.setSize(800, 30);
+		question3RadioC.setSize(800, 30);
 		question3RadioA.setLocation(20, 510);
 		question3RadioB.setLocation(20, 540);
 		question3RadioC.setLocation(20, 570);
@@ -682,14 +680,14 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
 		group3.add(question3RadioB);
 		group3.add(question3RadioC);
         // Question 4
-        question4Text.setSize(900, 30);
+        question4Text.setSize(800, 30);
 		question4Text.setLocation(20, 630);
         question4Text.setForeground(Color.white);
 		theTestPanel.add(question4Text);
 		// Question 4 Answers
-        question4RadioA.setSize(900, 30);
-		question4RadioB.setSize(900, 30);
-		question4RadioC.setSize(900, 30);
+        question4RadioA.setSize(800, 30);
+		question4RadioB.setSize(800, 30);
+		question4RadioC.setSize(800, 30);
 		question4RadioA.setLocation(20, 660);
 		question4RadioB.setLocation(20, 690);
 		question4RadioC.setLocation(20, 720);
@@ -706,14 +704,14 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
 		group4.add(question4RadioB);
 		group4.add(question4RadioC);
          // Question 5
-        question5Text.setSize(900, 30);
+        question5Text.setSize(800, 30);
 		question5Text.setLocation(20, 780);
         question5Text.setForeground(Color.white);
 		theTestPanel.add(question5Text);
 		// Question 5 Answers
-        question5RadioA.setSize(900, 30);
-		question5RadioB.setSize(900, 30);
-		question5RadioC.setSize(900, 30);
+        question5RadioA.setSize(800, 30);
+		question5RadioB.setSize(800, 30);
+		question5RadioC.setSize(800, 30);
 		question5RadioA.setLocation(20, 810);
 		question5RadioB.setLocation(20, 840);
 		question5RadioC.setLocation(20, 870);
