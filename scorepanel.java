@@ -6,7 +6,6 @@ public class scorepanel extends JPanel{
     Color clrBackground = new Color(37, 37, 37);
     int intPanelHeight;
 
-
     // Methods
     public void paintComponent(Graphics g){
         g.setColor(clrBackground);

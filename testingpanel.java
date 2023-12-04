@@ -8,7 +8,7 @@ public class testingpanel extends JPanel{
     // Methods
     public void paintComponent(Graphics g){
         g.setColor(clrBackground);
-        g.fillRect(0, 0, 960, 540);
+        g.fillRect(0, 0, 960, 1000);
     }
 
     // Constructor
