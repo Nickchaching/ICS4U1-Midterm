@@ -246,7 +246,8 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
                 System.out.println("Unable to open file");
             }
 
-            
+            countEntries();
+
         }
 
     }
@@ -459,13 +460,13 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         scoreTitleLabel.setForeground(thePanel.clrWhite);
         theScorePanel.add(scoreTitleLabel);
         // Format Label for Scores: Names of Users
-        scoreNamesLabel.setSize(880, intDisplayEntries * 15);
+        scoreNamesLabel.setSize(880, (int)(intDisplayEntries * 15.3));
         scoreNamesLabel.setLocation(20, 60);
         scoreNamesLabel.setVerticalAlignment(SwingConstants.TOP);
         scoreNamesLabel.setForeground(thePanel.clrWhite);
         theScorePanel.add(scoreNamesLabel);
         // Format Label for Scores: Quiz Mark Number
-        scoreNumbersLabel.setSize(60, intDisplayEntries * 15);
+        scoreNumbersLabel.setSize(60, (int)(intDisplayEntries * 15.3));
         scoreNumbersLabel.setLocation(900, 60);
         scoreNumbersLabel.setVerticalAlignment(SwingConstants.TOP);
         scoreNumbersLabel.setForeground(thePanel.clrWhite);
@@ -483,7 +484,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         strNames = "<html>" + strNames + "</html>";
         scoreNamesLabel.setText(strNames);
         // Score Data: Numbers into Label
-         for(intCount = 0; intCount < intEntries; intCount++){
+        for(intCount = 0; intCount < intEntries; intCount++){
             strNumbers = strNumbers + strScores[intCount][1] + "<br>";
         }
         strNumbers = "<html>" + strNumbers + "</html>";
@@ -508,14 +509,16 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     public graphics(){
         // Calculate Size of Score Panel
         int intEntries = countEntries();
+
         // Panel
         thePanel.setPreferredSize(new Dimension(960, 540));
         thePanel.setLayout(null);
         theTestPanel.setPreferredSize(new Dimension(960, 1500));
         theTestPanel.setLayout(null);
 		theTestScroll.setPreferredSize(new Dimension(960, 540));
-        theScorePanel.setPreferredSize(new Dimension(960, intEntries*30));
+        theScorePanel.setPreferredSize(new Dimension(960, (int)(Math.max(540, 75 + intEntries * 15.3))));
         theScorePanel.setLayout(null);
+        theScorePanel.intPanelHeight = (int)(Math.max(540, 75 + intEntries * 15.3));
         theScoreScroll.setPreferredSize(new Dimension(960,540));
         theHelpPanel.setPreferredSize(new Dimension(960, 540));
         theHelpPanel.setLayout(null);
