@@ -514,7 +514,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         theTestPanel.setPreferredSize(new Dimension(960, 1500));
         theTestPanel.setLayout(null);
 		theTestScroll.setPreferredSize(new Dimension(960, 540));
-        theScorePanel.setPreferredSize(new Dimension(960, 15*intEntries));
+        theScorePanel.setPreferredSize(new Dimension(960, 540));
         theScorePanel.setLayout(null);
         theScoreScroll.setPreferredSize(new Dimension(960,540));
         theHelpPanel.setPreferredSize(new Dimension(960, 540));
