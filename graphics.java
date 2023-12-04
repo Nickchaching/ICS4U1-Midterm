@@ -739,6 +739,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         theFrame.pack();
         theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         theFrame.setVisible(true);
+        theFrame.setResizable(false);
         newFrame.start();
     }
 }
