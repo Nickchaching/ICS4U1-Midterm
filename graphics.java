@@ -5,7 +5,7 @@ import javax.swing.event.*;
 import java.io.*;
 
 public class graphics implements ActionListener, MouseMotionListener, MouseListener, ChangeListener, MenuListener{
-    // Properties
+    //Properties
     Font theFont15 = new Font("Dialog", 1, 15);
     Font theFont30 = new Font("Dialog", 1, 30);
     int intPanelSelected = 1;
@@ -13,6 +13,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     int intEntries;
     String strScores[][];
 
+    //Panels, Frames, Timers
     JFrame theFrame = new JFrame("SOH CAH TOA SIMULATOR");
     panelgraphics thePanel = new panelgraphics();
     testingpanel theTestPanel = new testingpanel();
@@ -23,17 +24,7 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     JScrollPane theScoreScroll = new JScrollPane(theScorePanel);
     Timer newFrame = new Timer(1000 / 48, this);
 
-    // Button
-    JButton sinButton = new JButton("Sin");
-    JButton cosButton = new JButton("Cos");
-    JButton tanButton = new JButton("Tan");
-    JButton demoButton = new JButton("Show/Hide Demonstration");
-    JLabel aLabel = new JLabel("Side A: ", JLabel.CENTER);
-    JLabel bLabel = new JLabel("Side B: ", JLabel.CENTER);
-    // Slider
-    JSlider slideSideA = new JSlider(JSlider.HORIZONTAL, 0, 32, 10);
-    JSlider slideSideB = new JSlider(JSlider.HORIZONTAL, 0, 25, 10);
-    // Menu
+    //Menu Bar
     JMenuBar theBar = new JMenuBar();
     JMenu homeMenu = new JMenu("Home");
     JMenu quizMenu = new JMenu("Quiz");
@@ -41,41 +32,62 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     JMenu aboutMenu = new JMenu("About");
     JMenu helpMenu = new JMenu("Help");
 
+    //____________
+    //MAIN PANEL
+    //Buttons
+    JButton sinButton = new JButton("Sin");
+    JButton cosButton = new JButton("Cos");
+    JButton tanButton = new JButton("Tan");
+    JButton demoButton = new JButton("Show/Hide Demonstration");
+    JLabel aLabel = new JLabel("Side A: ", JLabel.CENTER);
+    JLabel bLabel = new JLabel("Side B: ", JLabel.CENTER);
+    
+    //Sliders
+    JSlider slideSideA = new JSlider(JSlider.HORIZONTAL, 0, 32, 10);
+    JSlider slideSideB = new JSlider(JSlider.HORIZONTAL, 0, 25, 10);
 
-    // Enter Name
+    //___________
+    //QUIZ PANEL
+    //Enter Name
 	JLabel nameText = new JLabel("Enter your name:");
 	JTextField nameField = new JTextField();
-	// Question 1
+	
+    //Question 1
 	JLabel question1Text = new JLabel("Which ratio uses the sides that are the opposite and hypotenuse to the specified angle?");
 	JRadioButton question1RadioA = new JRadioButton("Sin");
 	JRadioButton question1RadioB = new JRadioButton("Cos");
 	JRadioButton question1RadioC = new JRadioButton("Tan");
 	ButtonGroup group1 = new ButtonGroup();
-    // Question 2
+    
+    //Question 2
     JLabel question2Text = new JLabel("What kind of shape do you usually use trigonometry for?");
 	JRadioButton question2RadioA = new JRadioButton("Trapezoid");
 	JRadioButton question2RadioB = new JRadioButton("Square");
 	JRadioButton question2RadioC = new JRadioButton("Triangle");
 	ButtonGroup group2 = new ButtonGroup();
-    // Question 3
+    
+    //Question 3
     JLabel question3Text = new JLabel("Which side is the longest side of a right triangle?");
 	JRadioButton question3RadioA = new JRadioButton("Adjacent");
 	JRadioButton question3RadioB = new JRadioButton("Opposite");
 	JRadioButton question3RadioC = new JRadioButton("Hypotenuse");
 	ButtonGroup group3 = new ButtonGroup();
-    // Question 4
+    
+    //Question 4
     JLabel question4Text = new JLabel("How can you find an angle when given the opposite and adjacent side?");
 	JRadioButton question4RadioA = new JRadioButton("Inverse of tangent");
 	JRadioButton question4RadioB = new JRadioButton("Square of sine");
 	JRadioButton question4RadioC = new JRadioButton("Reciprocal of tangent");
 	ButtonGroup group4 = new ButtonGroup();
-    // Question 5
+    
+    //Question 5
     JLabel question5Text = new JLabel("What is the largest possible angle in a right triangle?");
 	JRadioButton question5RadioA = new JRadioButton(">90 degrees");
 	JRadioButton question5RadioB = new JRadioButton("90 degrees");
 	JRadioButton question5RadioC = new JRadioButton("<90 degrees");
 	ButtonGroup group5 = new ButtonGroup();
-	// Submit Button
+	
+    //Submit Button
     JButton submitButton = new JButton("Submit");
     JLabel correctLabel1 = new JLabel("Correct!");
     JLabel correctLabel2 = new JLabel("Correct!");
@@ -87,7 +99,10 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
     JLabel incorrectLabel3 = new JLabel("Incorrect!");
     JLabel incorrectLabel4 = new JLabel("Incorrect!");
     JLabel incorrectLabel5 = new JLabel("Incorrect!");
-    // Scores
+    
+    //___________
+    //SCORE PANEL
+    //Scores
     JLabel scoreTitleLabel = new JLabel("High Scores", JLabel.CENTER);
     JLabel scoreNamesLabel = new JLabel("");
     JLabel scoreNumbersLabel = new JLabel("");
@@ -705,8 +720,8 @@ public class graphics implements ActionListener, MouseMotionListener, MouseListe
         theFrame.setContentPane(thePanel);
         theFrame.pack();
         theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        theFrame.setVisible(true);
         theFrame.setResizable(false);
+        theFrame.setVisible(true);
         newFrame.start();
     }
 
